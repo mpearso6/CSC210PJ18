@@ -1,1 +1,2 @@
-# CSC210PJ18
+CSC 210 Project Famous Group 
+Twitter x Watson
