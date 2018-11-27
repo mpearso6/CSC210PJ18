@@ -14,4 +14,4 @@
 
 #### Server:
 1. `cd` into the server folder
-2. `npm run start`
+2. `npm run server`
