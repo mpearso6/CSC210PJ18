@@ -1,9 +1,13 @@
 /* @flow */
 
 import * as Actions from '../actions/Actions';
+import Auth from '../utils/Auth';
+const auth = new Auth();
+//auth.login();
 
 const defaultState: Object = {
-  bacon: ''
+  bacon: '',
+  auth
 };
 
 // TODO replace all action creators with constants

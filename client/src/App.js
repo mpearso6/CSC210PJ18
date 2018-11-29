@@ -7,6 +7,8 @@ import 'semantic-ui-css/semantic.css';
 import {createStore, applyMiddleware} from 'redux';
 import {configureStore, sagaMiddleWare} from './store/ConfigureStore';
 import {Provider} from 'react-redux';
+import Auth from './utils/Auth';
+
 
 // Sagas
 import rootSaga from './middleware/Saga.jsx';
@@ -18,11 +20,15 @@ const store = configureStore();
 
 sagaMiddleWare.run(rootSaga);
 
+
 class App extends Component {
+
+
+
   render() {
     return (
       <Provider store={store}>
-        <AppRouter/>
+        <AppRouter />
       </Provider>
     );
   }

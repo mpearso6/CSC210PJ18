@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Router, Route } from "react-router-dom";
+import { Router, Route, Switch} from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -14,9 +14,11 @@ import * as AppActions from "../actions/Actions";
 
 // Containers
 import HomeContainer from '../containers/HomeContainer';
+import AuthContainer from '../containers/AuthContainer';
 
 // Components
 import Navigation from '../components/Navigation';
+import Callback from '../components/Callback';
 
 export class AppRouter extends Component {
   _element = React.createElement;
@@ -37,11 +39,22 @@ export class AppRouter extends Component {
   }
 
   render() {
+    const handleAuthentication = (nextState, replace) => {
+      if (/access_token|id_token|error/.test(nextState.location.hash)) {
+        this.props.auth.handleAuthentication();
+      }
+    }
       return (
         <Router history={history}>
           <div>
             <Navigation/>
-            <Route path="/" component={HomeContainer}/>
+
+            <Route path="/" render={(props) => <AuthContainer auth={this.props.auth} {...props} />} />
+            <Route path="/home" render={(props) => <HomeContainer auth={this.props.auth} {...props} />} />
+            <Route path="/callback" render={(props) => {
+                handleAuthentication(props);
+                return <Callback {...props} />
+            }}/>
           </div>
         </Router>
       );
@@ -59,7 +72,8 @@ export class AppRouter extends Component {
 */
 function mapStateToProps(state, ownProps): Object {
   return {
-    bacon: state.bacon
+    bacon: state.bacon,
+    auth: state.auth
   };
 }
 

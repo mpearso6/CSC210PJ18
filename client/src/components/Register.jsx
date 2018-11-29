@@ -21,6 +21,10 @@ class Register extends Component {
 
   handleMenuChange = (e, { name }) => {
     this.setState({ activeItem: name })
+    if (name === 'portfolio') {
+      console.log(this.props);
+      this.props.auth.login();
+    }
   }
 
   render() {
