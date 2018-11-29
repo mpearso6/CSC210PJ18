@@ -7,11 +7,30 @@ import { bindActionCreators } from 'redux';
 // Actions
 import * as AppActions from '../actions/Actions';
 
+// Components
+import Register from '../components/Register';
+import Portfolio from '../components/Portfolio';
+import Humans from '../components/Humans';
+import Contact from '../components/Contact';
+
+import {
+  Segment
+} from 'semantic-ui-react';
+
 class HomeContainer extends Component {
 
   render() {
+    const home = {
+      padding: '0rem'
+    };
+
     return (
-      <div>taco is working</div>
+      <Segment style={home}>
+        <Register/>
+        <Portfolio/>
+        <Humans/>
+        <Contact/>
+      </Segment>
     );
   }
 }

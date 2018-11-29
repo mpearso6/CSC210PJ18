@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import 'semantic-ui-css/semantic.css';
 
 // Redux
 import {createStore, applyMiddleware} from 'redux';
