@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 
 // Redux
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
 // Actions
 import * as AppActions from '../actions/Actions';
@@ -16,70 +17,56 @@ import {
 } from 'semantic-ui-react';
 
 class AuthContainer extends Component {
+
   goTo(route) {
-     this.props.history.replace(`/${route}`)
-   }
+    this.props.history.replace(`/${route}`)
+  }
 
-   login() {
-     this.props.auth.login();
-   }
+  login() {
+    this.props.auth.login();
+  }
 
-   logout() {
-     this.props.auth.logout();
-   }
+  logout() {
+    this.props.auth.logout();
+  }
 
-   render() {
-     const { isAuthenticated } = this.props.auth;
+  render() {
 
-     return (
-       <div>
-         <Menu fluid>
-           <Menu.Header>
+    const {isAuthenticated} = this.props.auth;
 
-             <Button
+    return (
 
-               onClick={this.goTo.bind(this, 'home')}
-             >
-               Home
-             </Button>
-             {
-               !isAuthenticated() && (
-                   <Button
+      <Menu fluid>
+        <Menu.Header>
+          <Button color="blue" onClick={this.goTo.bind(this, 'home')}>
+            Home
+          </Button>
+          {
+            !isAuthenticated() && (<Button onClick={this.login.bind(this)}>
+              Log In
+            </Button>)
+          }
+          {
+            isAuthenticated() && (<Button bsStyle="primary" className="btn-margin" onClick={this.logout.bind(this)}>
+              Log Out
+            </Button>)
+          }
+        </Menu.Header>
+      </Menu>
 
-                     onClick={this.login.bind(this)}
-                   >
-                     Log In
-                   </Button>
-                 )
-             }
-             {
-               isAuthenticated() && (
-                   <Button
-                     bsStyle="primary"
-                     className="btn-margin"
-                     onClick={this.logout.bind(this)}
-                   >
-                     Log Out
-                   </Button>
-                 )
-             }
-           </Menu.Header>
-         </Menu>
-       </div>
-     );
-   }
- }
+    );
+  }
+}
 
+function mapStateToProps(state): Object {
+  return {
+    bacon: state.bacon,
+    auth: state.auth
+  }
+}
 
- function mapStateToProps(state): Object {
-   return{
-     bacon: state.bacon,
-     auth: state.auth
-   }
- }
+function mapActionCreatorsToProps(dispatch) {
+  return bindActionCreators(AppActions, dispatch);
+}
 
- function mapActionCreatorsToProps(dispatch) {
-   return bindActionCreators(AppActions, dispatch);
- }
-
- export default connect(mapStateToProps, mapActionCreatorsToProps)(AuthContainer);
+export default connect(mapStateToProps, mapActionCreatorsToProps)(AuthContainer);

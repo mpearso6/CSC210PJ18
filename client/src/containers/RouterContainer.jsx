@@ -47,7 +47,6 @@ export class AppRouter extends Component {
       return (
         <Router history={history}>
           <div>
-            <Navigation/>
 
             <Route path="/" render={(props) => <AuthContainer auth={this.props.auth} {...props} />} />
             <Route path="/home" render={(props) => <HomeContainer auth={this.props.auth} {...props} />} />
@@ -55,6 +54,7 @@ export class AppRouter extends Component {
                 handleAuthentication(props);
                 return <Callback {...props} />
             }}/>
+
           </div>
         </Router>
       );

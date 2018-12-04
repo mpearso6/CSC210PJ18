@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 // Semantic UI react
 import {
@@ -13,11 +14,12 @@ import {
 class Humans extends Component {
 
   render() {
+    const { classes, theme } = this.props;
 
     const portfolio = {
       backgroundColor: '#4B444E',
       height: '767px'
-    }
+    };
 
     return (
       <Segment style={portfolio}>
@@ -25,7 +27,6 @@ class Humans extends Component {
       </Segment>
     );
   }
-
 }
 
 export default Humans;
