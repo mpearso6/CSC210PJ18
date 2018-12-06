@@ -1,9 +1,20 @@
-const express = require('express')
-const path = require('path')
-const PORT = process.env.PORT || 5000
+const express = require('express');
+const path = require('path');
+const PORT = process.env.PORT || 5000;
 
-express()
+const app = express();
+
+const user = require('./routes/user');
+const saved_tweets = require('./routes/saved_tweets');
+const standards = require('./routes/standards');
+const watson_analysis = require('./routes/watson_analysis');
+
+app
   .use(express.static(path.join(__dirname, 'public')))
+  .use('/users', user)
+  .use('/saved_tweets', saved_tweets)
+  .use('/standards', standards)
+  .use('/watson_analysis', watson_analysis)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
