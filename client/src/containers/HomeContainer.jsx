@@ -183,7 +183,7 @@ class HomeContainer extends Component {
           <div
             className={classes.root}>
             <CssBaseline />
-            
+
             <nav
               className={classes.drawer}>
               <Hidden
@@ -224,7 +224,7 @@ class HomeContainer extends Component {
               className={classes.content}>
 
               <Register
-                fectchUsers={this.props.handleGetAllUsers}/>
+                fetchUsers={this.handleGetAllUsers}/>
               <Portfolio/>
               <Humans/>
               <Contact/>

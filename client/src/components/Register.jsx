@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 // Semantic UI react
 import {
-  
+
   Menu,
   Icon,
   Segment,
@@ -30,10 +30,6 @@ class Register extends Component {
     //console.log(nextProps);
   }
 
-  testFunction(){
-    console.log(this.props);
-  }
-
   handleMenuChange = (e, { name }) => {
     this.setState({ activeItem: name })
     if (name === 'portfolio') {
@@ -55,7 +51,7 @@ class Register extends Component {
     return (
       <Segment style={register}>
         <Button
-          onClick={this.testFunction}>
+          onClick={fetchUsers}>
           click
         </Button>
       </Segment>
