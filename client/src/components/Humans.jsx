@@ -18,7 +18,9 @@ class Humans extends Component {
 
     const portfolio = {
       backgroundColor: '#4B444E',
-      height: '767px'
+      height: '767px',
+      margin: '0',
+      borderRadius: '0'
     };
 
     return (

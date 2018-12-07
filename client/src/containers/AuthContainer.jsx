@@ -8,7 +8,6 @@ import {bindActionCreators} from 'redux';
 // Actions
 import * as AppActions from '../actions/Actions';
 import {
-  Button,
   Menu,
   Icon,
   Segment,
@@ -16,10 +15,13 @@ import {
   Sticky
 } from 'semantic-ui-react';
 
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 class AuthContainer extends Component {
 
   goTo(route) {
-    this.props.history.replace(`/${route}`)
+    this.props.history.replace(`/${route}`);
   }
 
   login() {
@@ -38,7 +40,9 @@ class AuthContainer extends Component {
 
       <Menu fluid>
         <Menu.Header>
-          <Button color="blue" onClick={this.goTo.bind(this, 'home')}>
+          <Button
+            color="primary"
+            onClick={this.goTo.bind(this, 'home')}>
             Home
           </Button>
           {
@@ -47,7 +51,9 @@ class AuthContainer extends Component {
             </Button>)
           }
           {
-            isAuthenticated() && (<Button bsStyle="primary" className="btn-margin" onClick={this.logout.bind(this)}>
+            isAuthenticated() && (<Button
+              color="primary"
+              onClick={this.logout.bind(this)}>
               Log Out
             </Button>)
           }

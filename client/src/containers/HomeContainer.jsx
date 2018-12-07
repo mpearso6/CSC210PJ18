@@ -21,21 +21,34 @@ import {
 
 // Material-ui
 import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
+
 import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Switch from '@material-ui/core/Switch';
+
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
+
+import Typography from '@material-ui/core/Typography';
+
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+
 import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
 import { withStyles } from '@material-ui/core/styles';
 
 const drawerWidth = 240;
@@ -55,6 +68,9 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
       width: `calc(100% - ${drawerWidth}px)`,
     },
+  },
+  grow: {
+    flexGrow: 1,
   },
   menuButton: {
     marginRight: 20,
@@ -76,49 +92,87 @@ class HomeContainer extends Component {
 
   state = {
     mobileOpen: false,
+    anchorEl: null
   };
+
+  constructor(props: Object){
+    super(props);
+    (this: any).handleLogin = this.handleLogin.bind(this);
+    (this: ant).handleLogout = this.handleLogout.bind(this);
+    (this: any).handleDrawerToggle = this.handleDrawerToggle.bind(this);
+    (this: any).handleGetAllUsers = this.handleGetAllUsers.bind(this);
+  }
+
+  componentDidMount() {
+
+  }
 
   handleDrawerToggle = () => {
     this.setState(state => ({ mobileOpen: !state.mobileOpen }));
   };
 
-  goTo(route) {
-    this.props.history.replace(`/${route}`)
+  handleGetAllUsers = () => {
+    this.props.loadUsersAction();
   }
 
-  login() {
+  goTo = (route) => {
+    this.props.history.replace(`/${route}`);
+  }
+
+  handleLogin = () => {
     this.props.auth.login();
   }
 
-  logout() {
+  handleLogout = () => {
     this.props.auth.logout();
   }
+
+  handleMenu = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   render() {
     const { classes, theme } = this.props;
     const {isAuthenticated} = this.props.auth;
+    const {anchorEl } = this.state;
+    const open = Boolean(anchorEl);
     const home = {
       padding: '0rem'
     };
 
     const drawer = (
       <div>
-        <div className={classes.toolbar} />
+        <div
+          className={classes.toolbar} />
         <Divider />
         <List>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem
+               button
+               key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text} />
             </ListItem>
           ))}
         </List>
         <Divider />
         <List>
           {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+            <ListItem
+              button
+              key={text}>
+              <ListItemIcon>
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={text} />
             </ListItem>
           ))}
         </List>
@@ -126,41 +180,77 @@ class HomeContainer extends Component {
     );
 
     return (
-      <Segment style={home}>
+      <div
+        >
         {isAuthenticated() && (
-          <div className={classes.root}>
+          <div
+            className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar
+              position="fixed"
+              className={classes.appBar}>
               <Toolbar>
                 <IconButton
                   color="inherit"
                   aria-label="Open drawer"
                   onClick={this.handleDrawerToggle}
-                  className={classes.menuButton}
-                >
+                  className={classes.menuButton}>
                   <MenuIcon />
                 </IconButton>
-                <Typography variant="h6" color="inherit" noWrap>
+                <Typography
+                  variant="h6"
+                  color="inherit"
+                  className={classes.grow}
+                  noWrap>
                   Responsive drawer
                 </Typography>
-                <Button color="blue" onClick={this.goTo.bind(this, 'home')}>
+                <Button
+                  color='inherit'
+                  onClick={this.goTo.bind(this, 'home')}>
                   Home
                 </Button>
                 {
-                  !isAuthenticated() && (<Button onClick={this.login.bind(this)}>
+                  !isAuthenticated() &&
+                  (<Button
+                    onClick={this.handleLogin}>
                     Log In
                   </Button>)
                 }
                 {
-                  isAuthenticated() && (<Button bsStyle="primary" className="btn-margin" onClick={this.logout.bind(this)}>
-                    Log Out
-                  </Button>)
+                  isAuthenticated() && (
+                    <span>
+                      <IconButton
+                        aria-owns={open ? 'menu-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleMenu}
+                        color="inherit">
+                          <AccountCircle />
+                      </IconButton>
+                      <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                          vertical: 'top',
+                          horizontal: 'right',
+                        }}
+                        open={open}
+                        onClose={this.handleClose}>
+                        <MenuItem onClick={this.handleLogout}>Log out</MenuItem>
+                      </Menu>
+                    </span>
+                  )
                 }
               </Toolbar>
             </AppBar>
-            <nav className={classes.drawer}>
-              {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-              <Hidden smUp implementation="css">
+            <nav
+              className={classes.drawer}>
+              <Hidden
+                smUp
+                implementation="css">
                 <Drawer
                   container={this.props.container}
                   variant="temporary"
@@ -177,7 +267,9 @@ class HomeContainer extends Component {
                   {drawer}
                 </Drawer>
               </Hidden>
-              <Hidden xsDown implementation="css">
+              <Hidden
+                xsDown
+                implementation="css">
                 <Drawer
                   classes={{
                     paper: classes.drawerPaper,
@@ -189,13 +281,18 @@ class HomeContainer extends Component {
                 </Drawer>
               </Hidden>
             </nav>
-            <main className={classes.content}>
+            <main
+              style={{padding:'0'}}
+              className={classes.content}>
+
               <div className={classes.toolbar} />
 
-              <Register/>
+              <Register
+                fectchUsers={this.props.handleGetAllUsers}/>
               <Portfolio/>
               <Humans/>
               <Contact/>
+
 
             </main>
           </div>
@@ -207,7 +304,7 @@ class HomeContainer extends Component {
                 You are not logged in! Please{' '}
                 <a
                   style={{ cursor: 'pointer' }}
-                  onClick={this.login.bind(this)}
+                  onClick={this.handleLogin}
                 >
                   Log In
                 </a>
@@ -215,7 +312,7 @@ class HomeContainer extends Component {
               </h4>
             )
         }
-      </Segment>
+      </div>
     );
   }
 }
@@ -230,6 +327,7 @@ HomeContainer.propTypes = {
 
 function mapStateToProps(state): Object {
   return{
+    users: state.users,
     bacon: state.bacon,
     auth: state.auth
   }

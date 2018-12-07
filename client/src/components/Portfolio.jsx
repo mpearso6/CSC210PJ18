@@ -16,7 +16,9 @@ class Portfolio extends Component {
 
     const portfolio = {
       backgroundColor: '#B8A4B7',
-      height: '1036px'
+      height: '1036px',
+      margin: '0',
+      borderRadius: '0'
     }
 
     return (

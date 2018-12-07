@@ -1,14 +1,18 @@
 /* @flow */
 
+// Fetch
+import {fetchUsers} from './TwitFetch';
+
 // Redux Saga
 import { put } from "redux-saga/effects";
-
 import { takeEvery } from "redux-saga/effects";
 
 // constants
 import {
   LOAD_TEST,
-  TEST_LOADED
+  TEST_LOADED,
+  LOAD_USERS,
+  USERS_LOADED
 } from '../actions/Actions';
 
 // uuid
@@ -23,8 +27,21 @@ export function* loadTest(loadTestAction: Object): Generator<Promise<Object>, an
   }
 }
 
+export function* loadUsers(loadUsersAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const users = yield fetchUsers();
+    yield put({ type: USERS_LOADED, users: users});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* watchForLoadTest(): Generator<any, any, any> {
   yield takeEvery(LOAD_TEST, loadTest);
+}
+
+export function* watchForLoadUsers(): Generator<any, any, any>{
+  yield takeEvery(LOAD_USERS, loadUsers);
 }
 
 /*
@@ -38,6 +55,7 @@ export function* watchForLoadTest(): Generator<any, any, any> {
  */
 export default function* rootSaga(): Generator<any, any, any> {
   yield [
-    watchForLoadTest()
+    watchForLoadTest(),
+    watchForLoadUsers()
   ];
 }

@@ -16,7 +16,9 @@ class Contact extends Component {
 
     const portfolio = {
       backgroundColor: '#000000',
-      height: '337px'
+      height: '337px',
+      margin: '0',
+      borderRadius: '0'
     }
 
     return (

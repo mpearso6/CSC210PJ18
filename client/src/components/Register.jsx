@@ -2,13 +2,16 @@ import React, { Component } from 'react';
 
 // Semantic UI react
 import {
-  Button,
+  
   Menu,
   Icon,
   Segment,
   Sidebar,
   Sticky
 } from 'semantic-ui-react';
+
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 class Register extends Component {
 
@@ -19,49 +22,42 @@ class Register extends Component {
     (this : any).handleMenuChange = this.handleMenuChange.bind(this);
   }
 
+  componentDidMount() {
+    //console.log(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    //console.log(nextProps);
+  }
+
+  testFunction(){
+    console.log(this.props);
+  }
+
   handleMenuChange = (e, { name }) => {
     this.setState({ activeItem: name })
     if (name === 'portfolio') {
-      console.log(this.props);
+      //console.log(this.props);
       this.props.auth.login();
     }
   }
 
   render() {
     const { activeItem } = this.state;
-
+    const {fetchUsers} = this.props;
     const register = {
       backgroundColor: '#83457F',
-      height: '700px'
+      height: '700px',
+      margin: '0',
+      borderRadius: '0'
     };
 
     return (
       <Segment style={register}>
-        <Menu borderless>
-          <Menu.Item
-            name='home'
-            active={activeItem === 'home'}
-            onClick={this.handleMenuChange}/>
-
-
-          <Menu.Item
-            name='portfolio'
-            active={activeItem === 'portfolio'}
-            onClick={this.handleMenuChange}/>
-
-
-          <Menu.Item
-            name='humans'
-            active={activeItem === 'humans'}
-            onClick={this.handleMenuChange}/>
-
-
-          <Menu.Item
-            name='contact'
-            active={activeItem === 'contact'}
-            onClick={this.handleMenuChange}/>
-
-        </Menu>
+        <Button
+          onClick={this.testFunction}>
+          click
+        </Button>
       </Segment>
     );
   }
