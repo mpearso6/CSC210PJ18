@@ -10,6 +10,11 @@ const standards = require('./routes/standards');
 const watson_analysis = require('./routes/watson_analysis');
 
 app
+  app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+  })
   .use(express.static(path.join(__dirname, 'public')))
   .use('/users', user)
   .use('/saved_tweets', saved_tweets)
