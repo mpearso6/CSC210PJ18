@@ -23,7 +23,6 @@ import {
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 
-import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -33,6 +32,7 @@ import IconButton from '@material-ui/core/IconButton';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import Switch from '@material-ui/core/Switch';
+import MailIcon from '@material-ui/icons/Mail';
 
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -41,13 +41,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 
 import Typography from '@material-ui/core/Typography';
 
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
-
-import MailIcon from '@material-ui/icons/Mail';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+
+import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -180,72 +178,12 @@ class HomeContainer extends Component {
     );
 
     return (
-      <div
-        >
+      <div>
         {isAuthenticated() && (
           <div
             className={classes.root}>
             <CssBaseline />
-            <AppBar
-              position="fixed"
-              className={classes.appBar}>
-              <Toolbar>
-                <IconButton
-                  color="inherit"
-                  aria-label="Open drawer"
-                  onClick={this.handleDrawerToggle}
-                  className={classes.menuButton}>
-                  <MenuIcon />
-                </IconButton>
-                <Typography
-                  variant="h6"
-                  color="inherit"
-                  className={classes.grow}
-                  noWrap>
-                  Responsive drawer
-                </Typography>
-                <Button
-                  color='inherit'
-                  onClick={this.goTo.bind(this, 'home')}>
-                  Home
-                </Button>
-                {
-                  !isAuthenticated() &&
-                  (<Button
-                    onClick={this.handleLogin}>
-                    Log In
-                  </Button>)
-                }
-                {
-                  isAuthenticated() && (
-                    <span>
-                      <IconButton
-                        aria-owns={open ? 'menu-appbar' : undefined}
-                        aria-haspopup="true"
-                        onClick={this.handleMenu}
-                        color="inherit">
-                          <AccountCircle />
-                      </IconButton>
-                      <Menu
-                        id="menu-appbar"
-                        anchorEl={anchorEl}
-                        anchorOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'right',
-                        }}
-                        open={open}
-                        onClose={this.handleClose}>
-                        <MenuItem onClick={this.handleLogout}>Log out</MenuItem>
-                      </Menu>
-                    </span>
-                  )
-                }
-              </Toolbar>
-            </AppBar>
+            
             <nav
               className={classes.drawer}>
               <Hidden
@@ -284,8 +222,6 @@ class HomeContainer extends Component {
             <main
               style={{padding:'0'}}
               className={classes.content}>
-
-              <div className={classes.toolbar} />
 
               <Register
                 fectchUsers={this.props.handleGetAllUsers}/>
