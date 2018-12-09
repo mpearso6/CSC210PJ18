@@ -42,10 +42,8 @@ class Register extends Component {
     const { activeItem } = this.state;
     const {fetchUsers} = this.props;
     const register = {
-      backgroundColor: '#83457F',
       height: '700px',
-      margin: '0',
-      borderRadius: '0'
+      margin: '0'
     };
 
     return (

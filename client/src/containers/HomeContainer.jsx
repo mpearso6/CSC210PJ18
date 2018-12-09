@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 // Redux
 import { connect } from 'react-redux';
@@ -49,42 +50,9 @@ import Button from '@material-ui/core/Button';
 
 import { withStyles } from '@material-ui/core/styles';
 
-const drawerWidth = 240;
+import authContainerStyle from '../assests/containers/authContainerStyle';
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-  },
-  drawer: {
-    [theme.breakpoints.up('sm')]: {
-      width: drawerWidth,
-      flexShrink: 0,
-    },
-  },
-  appBar: {
-    marginLeft: drawerWidth,
-    [theme.breakpoints.up('sm')]: {
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-  },
-  grow: {
-    flexGrow: 1,
-  },
-  menuButton: {
-    marginRight: 20,
-    [theme.breakpoints.up('sm')]: {
-      display: 'none',
-    },
-  },
-  toolbar: theme.mixins.toolbar,
-  drawerPaper: {
-    width: drawerWidth,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing.unit * 3,
-  },
-});
+
 
 class HomeContainer extends Component {
 
@@ -142,112 +110,14 @@ class HomeContainer extends Component {
       padding: '0rem'
     };
 
-    const drawer = (
-      <div>
-        <div
-          className={classes.toolbar} />
-        <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem
-               button
-               key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText
-                primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem
-              button
-              key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText
-                primary={text} />
-            </ListItem>
-          ))}
-        </List>
-      </div>
-    );
-
-    return (
-      <div>
+    return(
+      <div className={classNames(classes.main, classes.mainRaised)}>
         {isAuthenticated() && (
-          <div
-            className={classes.root}>
-            <CssBaseline />
-
-            <nav
-              className={classes.drawer}>
-              <Hidden
-                smUp
-                implementation="css">
-                <Drawer
-                  container={this.props.container}
-                  variant="temporary"
-                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                  open={this.state.mobileOpen}
-                  onClose={this.handleDrawerToggle}
-                  classes={{
-                    paper: classes.drawerPaper,
-                  }}
-                  ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                  }}
-                >
-                  {drawer}
-                </Drawer>
-              </Hidden>
-              <Hidden
-                xsDown
-                implementation="css">
-                <Drawer
-                  classes={{
-                    paper: classes.drawerPaper,
-                  }}
-                  variant="permanent"
-                  open
-                >
-                  {drawer}
-                </Drawer>
-              </Hidden>
-            </nav>
-            <main
-              style={{padding:'0'}}
-              className={classes.content}>
-
-              <Register
-                fetchUsers={this.handleGetAllUsers}/>
-              <Portfolio/>
-              <Humans/>
-              <Contact/>
-
-
-            </main>
-          </div>
-            )
-        }
-        {
-          !isAuthenticated() && (
-              <h4>
-                You are not logged in! Please{' '}
-                <a
-                  style={{ cursor: 'pointer' }}
-                  onClick={this.handleLogin}
-                >
-                  Log In
-                </a>
-                {' '}to continue.
-              </h4>
-            )
-        }
+          <div style={{height: '700px'}}> your in! </div>
+        )}
+        {!isAuthenticated() && (
+          <div style={{height: '700px'}}> your not in!</div>
+        )}
       </div>
     );
   }
@@ -273,4 +143,6 @@ function mapActionCreatorsToProps(dispatch): Object {
   return bindActionCreators(AppActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapActionCreatorsToProps)(withStyles(styles, { withTheme: true })(HomeContainer));
+export default
+connect(mapStateToProps, mapActionCreatorsToProps)(withStyles(authContainerStyle)
+(HomeContainer));

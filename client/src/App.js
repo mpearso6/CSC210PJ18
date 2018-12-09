@@ -9,9 +9,12 @@ import {configureStore, sagaMiddleWare} from './store/ConfigureStore';
 import {Provider} from 'react-redux';
 import Auth from './utils/Auth';
 
-
 // Sagas
 import rootSaga from './middleware/Saga.jsx';
+
+// Mateiral-ui
+import { MuiThemeProvider } from '@material-ui/core/styles';
+import theme from './assests/theme';
 
 // Containers
 import AppRouter from './containers/RouterContainer';
@@ -20,15 +23,15 @@ const store = configureStore();
 
 sagaMiddleWare.run(rootSaga);
 
-
 class App extends Component {
 
-
-
   render() {
+
     return (
       <Provider store={store}>
-        <AppRouter />
+        <MuiThemeProvider theme={theme}>
+          <AppRouter/>
+        </MuiThemeProvider>
       </Provider>
     );
   }

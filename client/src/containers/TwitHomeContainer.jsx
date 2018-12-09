@@ -51,10 +51,6 @@ import AltLoginSegment from '../components/segments/AltLoginSegment';
 
 class AuthContainer extends Component {
 
-  state = {
-    anchorEl: null
-  };
-
   componentDidMount() {
     console.log(this.props);
   }
@@ -82,68 +78,6 @@ class AuthContainer extends Component {
   render() {
     const { classes, ...rest } = this.props;
     const {isAuthenticated, login, logout} = this.props.auth;
-    const {anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-
-    const oldLoginPage =
-      <span
-        className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="sticky"
-          color="primary"
-          className={isAuthenticated() ? classes.appBar : classes.appBarWide}>
-          <Toolbar>
-            <Typography
-              variant="h6"
-              color="inherit"
-              className={classes.grow}
-              noWrap>
-              Twit
-            </Typography>
-            <Button
-              color='inherit'
-              onClick={this.goTo.bind(this, 'home')}>
-              Home
-            </Button>
-            {
-              !isAuthenticated() &&
-              (<Button
-                onClick={login}>
-                Log In
-              </Button>)
-            }
-            {
-              isAuthenticated() && (
-                <span>
-                  <IconButton
-                    aria-owns={open ? 'menu-appbar' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit">
-                      <AccountCircle />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={this.handleClose}>
-                    <MenuItem onClick={logout}>Log out</MenuItem>
-                  </Menu>
-                </span>
-              )
-            }
-          </Toolbar>
-        </AppBar>
-      </span>;
 
     return (
       <div>
@@ -154,7 +88,7 @@ class AuthContainer extends Component {
               auth={
                 !isAuthenticated() ?
                   login.bind(this) :
-                  logout.bind(this)}
+                  logout.bind(this) }
               home={this.goTo.bind(this, 'home')}
             />}
           fixed
@@ -174,8 +108,7 @@ class AuthContainer extends Component {
 
         <div
           className={classNames(classes.main, classes.mainRaised)}>
-          <AltLoginSegment
-            isAuthenticated={isAuthenticated}/>
+          <AltLoginSegment/>
         </div>
       </div>
     );
