@@ -25,7 +25,7 @@ module.exports = () => {
         var params = {screen_name: 'nodejs'};
         client.get('statuses/user_timeline', params, (error, tweets, res) => {
           if(!error){
-            res.json({tweets});
+            console.log(tweets);
           }
         });
       }
