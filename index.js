@@ -18,7 +18,7 @@ app
     next();
   })
   .use(express.static(path.join(__dirname, 'public')))
-  .use('/twitter', twitter)
+  .use('/api', twitter)
   .use('/users', user)
   .use('/saved_tweets', saved_tweets)
   .use('/standards', standards)
