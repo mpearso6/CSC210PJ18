@@ -7,7 +7,7 @@ module.exports = () => {
     access_token_key: '1071717626345340933-70jyDSeNONjOvOcWaNOlTz8zrbXM51',
     access_token_secret: 'haX1GSHAU9D8Vpep1zrDsagCSo0fASNpxoc2rgYfpLQiA'
   });
-  var params = {screen_name: 'nodejs};
+  var params = {screen_name: 'nodejs'};
   twitter.get('statuses/user_timeline', params, (error, tweets, res) => {
     if(!error){
       res.json({tweets});
