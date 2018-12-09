@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 5000;
 
 const app = express();
 
-const twitter = require('./api/twitter');
+const twitter = require('./routes/api/twitter');
 const user = require('./routes/user');
 const saved_tweets = require('./routes/saved_tweets');
 const standards = require('./routes/standards');
