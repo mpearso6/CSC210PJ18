@@ -9,7 +9,7 @@ module.exports = () => {
     access_token_secret: 'haX1GSHAU9D8Vpep1zrDsagCSo0fASNpxoc2rgYfpLQiA'
   });
   
-  app.get('api/twitter', (req, res) =>{
+  app.get('/twitter', (req, res) =>{
     const key: '2Jz7kiKdPuGYAg1f7k9Rhh5de';
     const secret: 'QWX73rxWYqTg9IOzJxvZG7vFVXVgEq7PqAqiwErIpgQ7Zv6XlT';
     
