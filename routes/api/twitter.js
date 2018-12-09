@@ -1,3 +1,5 @@
+const express = require('express');
+const router = express.Router();
 const Twitter = require('twitter');
 const getBearerToken = require('get-twitter-bearer-token');
 
@@ -11,7 +13,7 @@ module.exports = () => {
   });
   */
   
-  app.get('/twitter', (req, res) =>{
+  router.get('/twitter', (req, res) =>{
     const key: '2Jz7kiKdPuGYAg1f7k9Rhh5de';
     const secret: 'QWX73rxWYqTg9IOzJxvZG7vFVXVgEq7PqAqiwErIpgQ7Zv6XlT';
     
