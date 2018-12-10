@@ -3,7 +3,7 @@ const router = express.Router();
 const Twitter = require('twitter');
 const getBearerToken = require('get-twitter-bearer-token');
 
-module.exports = () => {
+module.exports = (app, io) => {
   /*
   let twitter = new Twitter({
     consumer_key: '2Jz7kiKdPuGYAg1f7k9Rhh5de',
