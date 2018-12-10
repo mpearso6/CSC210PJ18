@@ -1,7 +1,4 @@
-const express = require('express');
-const router = express.Router();
 const Twitter = require('twitter');
-const getBearerToken = require('get-twitter-bearer-token');
 
 module.exports = (app, io) => {
   
@@ -12,14 +9,15 @@ module.exports = (app, io) => {
     access_token_secret: 'haX1GSHAU9D8Vpep1zrDsagCSo0fASNpxoc2rgYfpLQiA'
   });
   
-  io.on('connection', socket => {
-    stream();
-    socket.on('connection', () => console.log('Client connected'));
-    socket.on('disconnect', () => console.log('Client disconnected'));
-  });
+  let socketConnection;
+  let twitterStream;
+  
+  app.locals.searchTerm = 'JavaScript'; //Default search term for twitter stream.
+  app.locals.showRetweets = false;
   
   const stream = () => {
-    twitter.stream('statuses/filter', { track: 'taco' }, (stream) => {
+    console.log('Resuming for ' + app.locals.searchTerm);
+    twitter.stream('statuses/filter', { track: app.locals.searchTerm }, (stream) => {
       stream.on('data', (tweet) => {
         sendMessage(tweet);
       });
@@ -28,4 +26,47 @@ module.exports = (app, io) => {
         console.log(error);
       });
   };
-}
+  
+  app.post('/setSearchTerm', (req, res) => {
+        let term = req.body.term;
+        app.locals.searchTerm = term;
+        twitterStream.destroy();
+        stream();
+    });
+
+    /**
+     * Pauses the twitter stream.
+     */
+  app.post('/pause', (req, res) => {
+      console.log('Pause');
+      twitterStream.destroy();
+  });
+
+    /**
+     * Resumes the twitter stream.
+     */
+  app.post('/resume', (req, res) => {
+      console.log('Resume');
+      stream();
+  });
+
+    //Establishes socket connection.
+  io.on("connection", socket => {
+      socketConnection = socket;
+      stream();
+      socket.on("connection", () => console.log("Client connected"));
+      socket.on("disconnect", () => console.log("Client disconnected"));
+  });
+
+    /**
+     * Emits data from stream.
+     * @param {String} msg 
+     */
+  const sendMessage = (msg) => {
+      if (msg.text.includes('RT')) {
+          return;
+      }
+      socketConnection.emit("tweets", msg);
+  }
+};
+  
