@@ -18,15 +18,17 @@ module.exports = (app, io) => {
   const stream = () => {
     console.log('Resuming for ' + app.locals.searchTerm);
     twitter.stream('statuses/filter', { track: app.locals.searchTerm }, (stream) => {
-      stream.on('data', (tweet) => {
-        sendMessage(tweet);
-      });
-      
-      stream.on('error', (error) => {
-        console.log(error);
-      });
-    }
-  };
+        stream.on('data', (tweet) => {
+            sendMessage(tweet);
+        });
+
+        stream.on('error', (error) => {
+            console.log(error);
+        });
+
+        twitterStream = stream;
+    });
+  }
   
   app.post('/setSearchTerm', (req, res) => {
         let term = req.body.term;
