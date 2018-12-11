@@ -1,4 +1,6 @@
 const Twitter = require('twitter');
+const express = require('express');
+const router = express.Router();
 
 module.exports = (app, io) => {
   
@@ -30,7 +32,7 @@ module.exports = (app, io) => {
     });
   }
   
-  app.post('/setSearchTerm', (req, res) => {
+  router.post('/setSearchTerm', (req, res) => {
         let term = req.body.term;
         app.locals.searchTerm = term;
         twitterStream.destroy();
@@ -40,7 +42,7 @@ module.exports = (app, io) => {
     /**
      * Pauses the twitter stream.
      */
-  app.post('/pause', (req, res) => {
+  router.post('/pause', (req, res) => {
       console.log('Pause');
       twitterStream.destroy();
   });
@@ -48,7 +50,7 @@ module.exports = (app, io) => {
     /**
      * Resumes the twitter stream.
      */
-  app.post('/resume', (req, res) => {
+  router.post('/resume', (req, res) => {
       console.log('Resume');
       stream();
   });
