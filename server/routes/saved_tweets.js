@@ -1,21 +1,12 @@
-/*
-module.exports = function(app){
-  var tasks = require('../controllers/users');
-  app.route('/')
-    .get(tasks.index);
-
-};
-*/
 var express = require('express');
 var router = express.Router();
 
-var mysql = require('mysql');
-//const db = require('./../db');
-const connection =  mysql.createConnection(process.env.JAWSDB_URL);;
+const db = require('./../db');
+const connection = db.connection;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    connection.query('SELECT * from User', function (error, results, fields) {
+    connection.query('SELECT * from SavedTweets', function (error, results, fields) {
         if(error){
             res.send(JSON.stringify({"status": 500, "error": error, "response": null}));
             //If there is error, we send the error in the error section with 500 status

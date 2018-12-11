@@ -178,7 +178,9 @@ class AuthContainer extends Component {
           className={classNames(classes.main, classes.mainRaised)}>
           <AltLoginSegment
             isAuthenticated={isAuthenticated}/>
+          {/*
           <TwitterSegment/>
+          */}
         </div>
       </div>
     );
