@@ -25,7 +25,7 @@ module.exports = (app, io) => {
       stream.on('error', (error) => {
         console.log(error);
       });
-    };
+    }
   };
   
   app.post('/setSearchTerm', (req, res) => {
