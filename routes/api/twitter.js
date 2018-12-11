@@ -2,7 +2,6 @@ const Twitter = require('twitter');
 const express = require('express');
 const router = express.Router();
 
-module.exports = (app, io) => {
   
   let twitter = new Twitter({
     consumer_key: '2Jz7kiKdPuGYAg1f7k9Rhh5de',
@@ -73,5 +72,6 @@ module.exports = (app, io) => {
       }
       socketConnection.emit("tweets", msg);
   }
-};
+
+module.exports = router;
   
