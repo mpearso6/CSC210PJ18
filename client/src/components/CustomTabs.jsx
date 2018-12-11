@@ -26,6 +26,7 @@ class CustomTabs extends Component {
   };
 
   render() {
+
     const {
       classes,
       headerColor,
@@ -42,10 +43,8 @@ class CustomTabs extends Component {
     return (
       <Card>
         <CardContent>
-          <Typography
-          className={classes.title}
-          color="textSecondary" gutterBottom>
-            <div className={cardTitle}>{title}</div>
+          <Typography>
+            {tabs.tabContent}
           </Typography>
         </CardContent>
       </Card>
@@ -54,4 +53,4 @@ class CustomTabs extends Component {
 
 }
 
-export default CustomTabs;
+export default withStyles(tabStyle)(CustomTabs);

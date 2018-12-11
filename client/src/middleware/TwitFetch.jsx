@@ -9,5 +9,10 @@ export function fetchUsers(): Promise {
 
 export function fetchUserTweet(): Promise {
   const endpoint: string = TwitterEndpoint;
-  return fetch(endpoint).then((response) => response.json().then((tweet) => tweet));
+  return
+    fetch(endpoint)
+      .then((response) => {
+        console.log(response);
+        response.json().then((tweet) => tweet)
+      });
 }

@@ -6,27 +6,9 @@ import GridContainer from '../GridContainer';
 import GridItem from '../GridItem';
 import CustomTabs from '../../components/CustomTabs';
 
-import tabsStyle from '../../assests/components/segments/tabStyle';
+import tabStyle from '../../assests/components/segments/tabStyle';
 
 import { withStyles } from '@material-ui/core/styles';
-
-const styles = {
-  card: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-};
-
 
 class TwitterSegment extends Component {
 
@@ -45,12 +27,12 @@ class TwitterSegment extends Component {
   }
 
   componentDidMount() {
-    const socket = socketIOClient('https://csc210pj18.herokuapp.com/api/');
-/*
+    const socket = socketIOClient('http://localhost:5001/');
+
     socket.on('connect', () => {
       console.log("Socket Connected");
       socket.on("tweets", data => {
-        let newList = [data].concat(this.state.items);
+        let newList = [data].concat(this.state.items.slice(0, 15));
         this.setState({items: newList});
       });
     });
@@ -59,7 +41,7 @@ class TwitterSegment extends Component {
       socket.removeAllListeners("tweets");
       console.log("Socket Disconnected");
     });
-    */
+
   }
 
   handleChange(event) {
@@ -94,14 +76,12 @@ class TwitterSegment extends Component {
 
   render() {
     const { classes } = this.props;
-    let items = this.state.items;
+    let { items } = this.state;
+    //let items = this.state.items;
 
     let itemsCards =
-    <CSSTransitionGroup
-      transitionName="example"
-      transitionEnterTimeout={500}
-      transitionLeaveTimeout={300}>
-      {items.map((x, i) =>
+    <div>
+      {items.map((data, i) =>
         <CustomTabs
           key={i}
           headerColor="primary"
@@ -109,18 +89,22 @@ class TwitterSegment extends Component {
             {
               tabName: "Tweet",
               tabContent: (
-                <p className={classes.textCenter}>
-                  {x}
-                </p>
+                <span className="black-text">{data.text}</span>
               )
             }
           }/>
       )}
-    </CSSTransitionGroup>;
+      </div>;
 
     let searchControls =
     <div>
-      <input id="email" type="text" className="validate" value={this.state.searchTerm} onKeyPress={this.handleKeyPress} onChange={this.handleChange}/>
+      <input
+        id="email"
+        type="text"
+        className="validate"
+        value={this.state.searchTerm}
+        onKeyPress={this.handleKeyPress}
+        onChange={this.handleChange}/>
       <label htmlFor="email">Search</label>
     </div>;
 
@@ -160,14 +144,10 @@ class TwitterSegment extends Component {
         <div className={classes.container}>
           <div id='nav-tabs'>
             <GridContainer>
-              <GridItem xs={12} sm={12} md={6}>
-                {searchControls}
-                {
-                  items.length > 0 ? controls : null
-                }
-                {
-                  items.length > 0 ? itemsCards : loading
-                }
+              <GridItem xs={12} sm={12} md={12}>
+                {/*searchControls*/}
+                {/*controls*/}
+                {itemsCards}
               </GridItem>
             </GridContainer>
           </div>
@@ -182,4 +162,4 @@ const controlStyle = {
 };
 
 
-export default withStyles(styles)(TwitterSegment);
+export default withStyles(tabStyle)(TwitterSegment);
