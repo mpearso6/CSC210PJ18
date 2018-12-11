@@ -12,7 +12,8 @@ class AltLoginSegment extends Component {
   render() {
     const {isAuthenticated} = this.props;
     return (
-      <div style={{height: '700px'}}>
+      <div 
+        style={{height: '700px'}}>
         {isAuthenticated() && (
          <span>your in!</span>
         )}

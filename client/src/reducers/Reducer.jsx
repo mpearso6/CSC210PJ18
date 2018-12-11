@@ -8,6 +8,7 @@ const auth = new Auth();
 const defaultState: Object = {
   users: [],
   bacon: '',
+  tweet: [],
   auth
 };
 
@@ -32,6 +33,12 @@ export default function twitReducer(state = defaultState, action): Object {
       return {
         ...state,
         users: action.users
+      }
+
+    case Actions.TWEET_LOADED:
+      return {
+        ...state,
+        users: action.tweet
       }
 
     default:

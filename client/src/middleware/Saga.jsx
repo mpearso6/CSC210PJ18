@@ -1,7 +1,7 @@
 /* @flow */
 
 // Fetch
-import {fetchUsers} from './TwitFetch';
+import {fetchUsers, fetchUserTweet} from './TwitFetch';
 
 // Redux Saga
 import { put } from "redux-saga/effects";
@@ -12,7 +12,9 @@ import {
   LOAD_TEST,
   TEST_LOADED,
   LOAD_USERS,
-  USERS_LOADED
+  USERS_LOADED,
+  LOAD_TWEET,
+  TWEET_LOADED
 } from '../actions/Actions';
 
 // uuid
@@ -36,12 +38,25 @@ export function* loadUsers(loadUsersAction: Object): Generator<Promise<Object>, 
   }
 }
 
+export function* loadTweet(loadTweetAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const tweet = yield fetchUserTweet();
+    yield put({ type: TWEET_LOADED, tweet: tweet});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* watchForLoadTest(): Generator<any, any, any> {
   yield takeEvery(LOAD_TEST, loadTest);
 }
 
 export function* watchForLoadUsers(): Generator<any, any, any>{
   yield takeEvery(LOAD_USERS, loadUsers);
+}
+
+export function* watchForLoadTweetTest(): Generator<any, any, any>{
+  yield takeEvery(LOAD_TWEET, loadTweet);
 }
 
 /*
@@ -56,6 +71,7 @@ export function* watchForLoadUsers(): Generator<any, any, any>{
 export default function* rootSaga(): Generator<any, any, any> {
   yield [
     watchForLoadTest(),
-    watchForLoadUsers()
+    watchForLoadUsers(),
+    watchForLoadTweetTest()
   ];
 }

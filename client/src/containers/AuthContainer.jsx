@@ -45,6 +45,7 @@ import authContainerStyle from '../assests/containers/authContainerStyle';
 import Header from '../components/Header';
 import HeaderLinks from '../components/HeaderLinks';
 import Parallax from '../components/Parallax';
+import TwitterSegment from '../components/segments/TwitterSegment';
 
 // Segments
 import AltLoginSegment from '../components/segments/AltLoginSegment';
@@ -56,6 +57,7 @@ class AuthContainer extends Component {
   };
 
   componentDidMount() {
+    this.props.loadTweetAction();
     console.log(this.props);
   }
 
@@ -176,6 +178,7 @@ class AuthContainer extends Component {
           className={classNames(classes.main, classes.mainRaised)}>
           <AltLoginSegment
             isAuthenticated={isAuthenticated}/>
+          <TwitterSegment/>
         </div>
       </div>
     );
