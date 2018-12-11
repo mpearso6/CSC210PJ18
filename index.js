@@ -4,13 +4,19 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
+const app, io, server;
 
-const app = express();
+module.exports =  {
+  app: express(),
+  server: http.createServer(app),
+  io: socketio(server)
+};
 
-const server = http.createServer(app);
-const io = socketio(server);
+//const app = express();
+//const server = http.createServer(app);
+//const io = socketio(server);
 
-const twitter = require('./routes/api/twitter')(app, io);
+const twitter = require('./routes/api/twitter');
 const user = require('./routes/user');
 const saved_tweets = require('./routes/saved_tweets');
 const standards = require('./routes/standards');
