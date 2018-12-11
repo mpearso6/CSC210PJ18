@@ -4,9 +4,9 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
-const app; 
-const io;
-const server;
+const app = ''; 
+const io = '';
+const server = '';
 
 module.exports =  {
   app: express(),
