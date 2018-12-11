@@ -4,19 +4,9 @@ const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
-const app = ''; 
-const io = '';
-const server = '';
-
-module.exports =  {
-  app: express(),
-  server: http.createServer(app),
-  io: socketio(server)
-};
-
-//const app = express();
-//const server = http.createServer(app);
-//const io = socketio(server);
+const app = express();
+const server = http.createServer(app);
+const io = socketio(server);
 
 const twitter = require('./routes/api/twitter');
 const user = require('./routes/user');
