@@ -2,10 +2,15 @@ import React, {Component} from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import socketIOClient from "socket.io-client";
 
+// Material Icons
+import Face from "@material-ui/icons/Face";
+import Chat from "@material-ui/icons/Chat";
+import Build from "@material-ui/icons/Build";
 import GridContainer from '../GridContainer';
 import GridItem from '../GridItem';
 import CustomTabs from '../../components/CustomTabs';
 
+// Assests
 import tabStyle from '../../assests/components/segments/tabStyle';
 
 import { withStyles } from '@material-ui/core/styles';
@@ -27,6 +32,8 @@ class TwitterSegment extends Component {
   }
 
   componentDidMount() {
+    this.props.loadTweetsAction();
+    /*
     const socket = socketIOClient('http://localhost:5001/');
 
     socket.on('connect', () => {
@@ -41,7 +48,7 @@ class TwitterSegment extends Component {
       socket.removeAllListeners("tweets");
       console.log("Socket Disconnected");
     });
-
+    */
   }
 
   handleChange(event) {
@@ -75,26 +82,20 @@ class TwitterSegment extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, loadTweetAction } = this.props;
     let { items } = this.state;
     //let items = this.state.items;
 
     let itemsCards =
-    <div>
-      {items.map((data, i) =>
-        <CustomTabs
-          key={i}
-          headerColor="primary"
-          tabs={
-            {
-              tabName: "Tweet",
-              tabContent: (
-                <span className="black-text">{data.text}</span>
-              )
-            }
-          }/>
+      <div>
+      {items.map((data) =>
+        <p
+          key={data.uniqueId}
+          className={classes.textCenter}>
+          {data.text}
+        </p>
       )}
-      </div>;
+    </div>;
 
     let searchControls =
     <div>
@@ -110,7 +111,10 @@ class TwitterSegment extends Component {
 
     let filterControls =
     <div>
-      <a className="btn-floating btn-small waves-effect waves-light pink accent-2" style={controlStyle} onClick={this.handleResume}>
+      <a
+        className="btn-floating btn-small waves-effect waves-light pink accent-2"
+        style={controlStyle}
+        onClick={this.handleResume}>
         <i className="material-icons">play_arrow</i>
       </a>
       <a className="btn-floating btn-small waves-effect waves-light pink accent-2" onClick={this.handlePause}>
@@ -143,11 +147,59 @@ class TwitterSegment extends Component {
       <div className={classes.section}>
         <div className={classes.container}>
           <div id='nav-tabs'>
+            <h3>Twitter Tabs</h3>
             <GridContainer>
               <GridItem xs={12} sm={12} md={12}>
+                <h3>
+                  <small>Tabs with Icons on Card</small>
+                </h3>
                 {/*searchControls*/}
                 {/*controls*/}
-                {itemsCards}
+                <CustomTabs
+                  headerColor="rose"
+                  tabs={[
+                    {
+                      tabName: "Tweet",
+                      tabIcon: Face,
+                      tabContent: (
+                        itemsCards
+                      )
+                    },
+                    {
+                      tabName: "Messages",
+                      tabIcon: Chat,
+                      tabContent: (
+                        <p className={classes.textCenter}>
+                          I think that’s a responsibility that I have, to push
+                          possibilities, to show people, this is the level that
+                          things could be at. I will be the leader of a company
+                          that ends up being worth billions of dollars, because
+                          I got the answers. I understand culture. I am the
+                          nucleus. I think that’s a responsibility that I have,
+                          to push possibilities, to show people, this is the
+                          level that things could be at.
+                        </p>
+                      )
+                    },
+                    {
+                      tabName: "Settings",
+                      tabIcon: Build,
+                      tabContent: (
+                        <p className={classes.textCenter}>
+                          think that’s a responsibility that I have, to push
+                          possibilities, to show people, this is the level that
+                          things could be at. So when you get something that has
+                          the name Kanye West on it, it’s supposed to be pushing
+                          the furthest possibilities. I will be the leader of a
+                          company that ends up being worth billions of dollars,
+                          because I got the answers. I understand culture. I am
+                          the nucleus.
+                        </p>
+                      )
+                    }
+                  ]}
+                  />
+
               </GridItem>
             </GridContainer>
           </div>
@@ -162,4 +214,4 @@ const controlStyle = {
 };
 
 
-export default withStyles(tabStyle)(TwitterSegment);
+export default (withStyles(tabStyle)(TwitterSegment));

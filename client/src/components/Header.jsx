@@ -59,18 +59,19 @@ class Header extends Component {
   render() {
     const {
       classes,
+      theme,
       brand,
       color,
       fixed,
       absolute,
       rightLinks
     } = this.props;
-    const appBarClasses = classNames({
-      [classes.appBar]: true,
-      [classes[color]]: color,
-      [classes.absolute]: absolute,
-      [classes.fixed]: fixed
-    });
+    const appBarClasses = classNames(
+      {[classes.appBar]: true},
+      {[classes[color]]: color},
+      {[classes.absolute]: absolute},
+      {[classes.fixed]: fixed}
+    );
     return (
       <AppBar
         className={appBarClasses}>
@@ -118,4 +119,4 @@ class Header extends Component {
   }
 }
 
-export default withStyles(headerStyle)(Header);
+export default withStyles(headerStyle, {withTheme: true})(Header);

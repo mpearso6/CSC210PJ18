@@ -1,7 +1,7 @@
 /* @flow */
 
 // Fetch
-import {fetchUsers, fetchUserTweet} from './TwitFetch';
+import {fetchUsers, fetchTweets, fetchTweetStream} from './TwitFetch';
 
 // Redux Saga
 import { put } from "redux-saga/effects";
@@ -13,8 +13,10 @@ import {
   TEST_LOADED,
   LOAD_USERS,
   USERS_LOADED,
-  LOAD_TWEET,
-  TWEET_LOADED
+  LOAD_TWEET_STREAM,
+  TWEET_STREAM_LOADED,
+  LOAD_TWEETS,
+  TWEETS_LOADED
 } from '../actions/Actions';
 
 // uuid
@@ -38,10 +40,21 @@ export function* loadUsers(loadUsersAction: Object): Generator<Promise<Object>, 
   }
 }
 
-export function* loadTweet(loadTweetAction: Object): Generator<Promise<Object>, any, any> {
+export function* loadTweetStream(loadTweetStreamAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const tweet = yield fetchUserTweet();
-    yield put({ type: TWEET_LOADED, tweet: tweet});
+    const stream = yield fetchTweetStream();
+    yield put({ type: TWEET_STREAM_LOADED, stream: stream});
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* loadTweets(loadTweetsAction: Object): Generator<Promise<Object>, any, any> {
+  console.log('this fired');
+  try {
+    const tweets = yield fetchTweets();
+    console.log(tweets);
+    yield put({ type: TWEETS_LOADED, tweets: tweets});
   } catch (error) {
     console.log(error);
   }
@@ -55,8 +68,12 @@ export function* watchForLoadUsers(): Generator<any, any, any>{
   yield takeEvery(LOAD_USERS, loadUsers);
 }
 
-export function* watchForLoadTweetTest(): Generator<any, any, any>{
-  yield takeEvery(LOAD_TWEET, loadTweet);
+export function* watchForLoadTweetStream(): Generator<any, any, any>{
+  yield takeEvery(LOAD_TWEET_STREAM, loadTweetStream);
+}
+
+export function* watchForLoadTweets(): Generator<any, any, any>{
+  yield takeEvery(LOAD_TWEETS, loadTweets);
 }
 
 /*
@@ -72,6 +89,7 @@ export default function* rootSaga(): Generator<any, any, any> {
   yield [
     watchForLoadTest(),
     watchForLoadUsers(),
-    watchForLoadTweetTest()
+    watchForLoadTweetStream(),
+    watchForLoadTweets()
   ];
 }

@@ -1,78 +1,127 @@
 const Twitter = require('twitter');
 const express = require('express');
 const router = express.Router();
+const http = require('http');
+const socketIo = require('socket.io');
+const SERVER_PORT =  5001;
 
-module.exports = (app, io) => {
+const app = express();
+const server = http.createServer(app);
+const io = socketIo(server);
 
-  let twitter = new Twitter({
-    consumer_key: '2Jz7kiKdPuGYAg1f7k9Rhh5de',
-    consumer_secret: 'QWX73rxWYqTg9IOzJxvZG7vFVXVgEq7PqAqiwErIpgQ7Zv6XlT',
-    access_token_key: '1071717626345340933-70jyDSeNONjOvOcWaNOlTz8zrbXM51',
-    access_token_secret: 'haX1GSHAU9D8Vpep1zrDsagCSo0fASNpxoc2rgYfpLQiA'
+//module.exports = (app, io) => {
+
+let twitter = new Twitter({
+  consumer_key: process.env.CONSUMER_KEY,
+  consumer_secret: process.env.CONSUMER_SECRET,
+  access_token_key: process.env.ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.ACCESS_TOKEN_SECRET
+});
+
+let socketConnection;
+let twitterStream;
+
+//app.locals.searchTerm = 'RWBY'; //Default search term for twitter stream.
+//app.locals.showRetweets = false;
+
+const stream = () => {
+  console.log('Resuming for ' + 'RWBY');
+  twitter.stream('statuses/filter', { track: 'RWBY' }, (stream) => {
+      stream.on('data', (tweet) => {
+          sendMessage(tweet);
+      });
+
+      stream.on('error', (error) => {
+          console.log(error);
+      });
+
+      setTimeout(function() {
+
+          // In two seconds, get as many tweets as the server can get and then send to front end
+          stream.destroy();
+          res.send(tweets);
+      }, 2000);
+
+      twitterStream = stream;
   });
+}
 
-  let socketConnection;
-  let twitterStream;
+router.get('/stream', (req, res) => {
+  const tweets = [];
+  twitter.stream('statuses/filter', { track: 'RWBY' }, (stream) => {
+      stream.on('data', (data) => {
+          tweets.push(data);
+          sendMessage(tweet);
+      });
 
-  app.locals.searchTerm = 'JavaScript'; //Default search term for twitter stream.
-  app.locals.showRetweets = false;
+      stream.on('error', (error) => {
+          console.log(error);
+      });
 
-  const stream = () => {
-    console.log('Resuming for ' + app.locals.searchTerm);
-    twitter.stream('statuses/filter', { track: app.locals.searchTerm }, (stream) => {
-        stream.on('data', (tweet) => {
-            sendMessage(tweet);
-        });
+      setTimeout(function() {
 
-        stream.on('error', (error) => {
-            console.log(error);
-        });
+          // In two seconds, get as many tweets as the server can get and then send to front end
+          stream.destroy();
+          res.send(tweets);
+      }, 2000);
 
-        twitterStream = stream;
-    });
-  }
+      twitterStream = stream;
+  });
+});
 
-  router.post('/setSearchTerm', (req, res) => {
-        let term = req.body.term;
-        app.locals.searchTerm = term;
-        twitterStream.destroy();
-        stream();
-    });
+router.get('/', (req, res) => {
+  const tweetsBox = [];
+  twitter.get('search/tweets', {q: 'rwby'}, (error, tweets, response) => {
+    //console.log(tweets);
+    //tweets = tweetBox;
+    res.send(tweets);
+  });
+});
 
-    /**
-     * Pauses the twitter stream.
-     */
-  router.post('/pause', (req, res) => {
-      console.log('Pause');
+router.post('/setSearchTerm', (req, res) => {
+      let term = req.body.term;
+      app.locals.searchTerm = term;
       twitterStream.destroy();
-  });
-
-    /**
-     * Resumes the twitter stream.
-     */
-  router.post('/resume', (req, res) => {
-      console.log('Resume');
       stream();
   });
 
-    //Establishes socket connection.
-  io.on("connection", socket => {
-      socketConnection = socket;
-      stream();
-      socket.on("connection", () => console.log("Client connected"));
-      socket.on("disconnect", () => console.log("Client disconnected"));
-  });
+  /**
+   * Pauses the twitter stream.
+   */
+router.post('/pause', (req, res) => {
+    console.log('Pause');
+    twitterStream.destroy();
+});
 
-    /**
-     * Emits data from stream.
-     * @param {String} msg
-     */
-  const sendMessage = (msg) => {
-      if (msg.text.includes('RT')) {
-          return;
-      }
-      socketConnection.emit("tweets", msg);
-  }
+  /**
+   * Resumes the twitter stream.
+   */
+router.post('/resume', (req, res) => {
+    console.log('Resume');
+    stream();
+});
 
-  return router;
-};
+  //Establishes socket connection.
+io.on("connection", socket => {
+    socketConnection = socket;
+    stream();
+    socket.on("connection", () => console.log("Client connected"));
+    socket.on("disconnect", () => console.log("Client disconnected"));
+});
+
+  /**
+   * Emits data from stream.
+   * @param {String} msg
+   */
+const sendMessage = (msg) => {
+    if (msg.text.includes('RT')) {
+        return;
+    }
+    socketConnection.emit("tweets", msg);
+}
+
+server
+  .listen(SERVER_PORT, () => console.log(`Twitter api Listening on ${ SERVER_PORT }`));
+
+module.exports = router;
+//};

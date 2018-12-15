@@ -2,8 +2,11 @@ import { container } from '../../material-kit-react';
 
 const tabsStyle = {
   section: {
-    background: "#EEEEEE",
+    background: "#eeeeee",
     padding: "70px 0"
+  },
+  flex: {
+    flex: 1
   },
   container,
   textCenter: {

@@ -99,7 +99,7 @@ const dangerBoxShadow = {
 };
 const roseBoxShadow = {
   boxShadow:
-    "0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(233, 30, 99, 0.4)"
+    "0 12px 20px -10px rgba(233, 30, 99, 0.28), 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 8px -5px rgba(233, 30, 99, 0.2)"
 };
 
 const warningCardHeader = {

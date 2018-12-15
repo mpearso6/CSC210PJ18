@@ -27,6 +27,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
+
 import ListItemText from '@material-ui/core/ListItemText';
 
 import Typography from '@material-ui/core/Typography';
@@ -57,8 +58,7 @@ class AuthContainer extends Component {
   };
 
   componentDidMount() {
-    this.props.loadTweetAction();
-    console.log(this.props);
+    //console.log(this.props);
   }
 
   goTo(route) {
@@ -81,8 +81,12 @@ class AuthContainer extends Component {
     this.setState({ anchorEl: null });
   };
 
+  handleTwitterSearch = () => {
+    this.props.loadTweetsAction();
+  }
+
   render() {
-    const { classes, ...rest } = this.props;
+    const {loadTweetsAction, classes, theme, ...rest } = this.props;
     const {isAuthenticated, login, logout} = this.props.auth;
     const {anchorEl } = this.state;
     const open = Boolean(anchorEl);
@@ -93,7 +97,7 @@ class AuthContainer extends Component {
         <CssBaseline />
         <AppBar
           position="sticky"
-          color="primary"
+          color={classes.primaryColor}
           className={isAuthenticated() ? classes.appBar : classes.appBarWide}>
           <Toolbar>
             <Typography
@@ -138,7 +142,8 @@ class AuthContainer extends Component {
                     }}
                     open={open}
                     onClose={this.handleClose}>
-                    <MenuItem onClick={logout}>Log out</MenuItem>
+                    <MenuItem
+                      onClick={logout}>Log out</MenuItem>
                   </Menu>
                 </span>
               )
@@ -163,7 +168,7 @@ class AuthContainer extends Component {
           color="transparent"
           changeColorOnScroll={{
             height: 400,
-            color: "white"
+            color: "rose"
           }}
           {...rest}/>
         <Parallax image={require('../assests/images/bg4.jpg')}>
@@ -176,11 +181,13 @@ class AuthContainer extends Component {
 
         <div
           className={classNames(classes.main, classes.mainRaised)}>
+
           <AltLoginSegment
             isAuthenticated={isAuthenticated}/>
 
-          <TwitterSegment/>
-        
+          <TwitterSegment
+            loadTweetsAction={this.handleTwitterSearch.bind(this)}/>
+
         </div>
       </div>
     );
@@ -190,7 +197,8 @@ class AuthContainer extends Component {
 function mapStateToProps(state): Object {
   return {
     bacon: state.bacon,
-    auth: state.auth
+    auth: state.auth,
+    tweets: state.tweets
   }
 }
 

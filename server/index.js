@@ -4,22 +4,23 @@ const socketIo = require('socket.io');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
-const SERVER_PORT =  5001;
+require('dotenv').config();
+
 
 const app = express();
 
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const twitter = require('./routes/api/twitter')(app, io);
+const twitter = require('./routes/api/twitter');
 const user = require('./routes/user');
 const saved_tweets = require('./routes/saved_tweets');
 const standards = require('./routes/standards');
 const watson_analysis = require('./routes/watson_analysis');
 
-console.log(process.env);
+console.log(process.env.PORT);
 //process.env.twitMysql = 'mysql://vx0xz9p9sdjtdf65:m7ws7lmyshd69fbt@h2cwrn74535xdazj.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/za76lma5s7kw9hgw';
-console.log(process.env);
+//console.log(process.env);
 
 app
   .use(function(req, res, next) {
@@ -38,5 +39,3 @@ app
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   .listen(PORT, () => console.log(`Main app Listening on ${ PORT }`));
-server
-  .listen(SERVER_PORT, () => console.log(`Twitter api Listening on ${ SERVER_PORT }`));
