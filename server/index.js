@@ -37,5 +37,5 @@ app
   .use('/watson_analysis', watson_analysis)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
+  .get('/', (req, res) => res.render('pages/client/index'))
   .listen(PORT, () => console.log(`Main app Listening on ${ PORT }`));

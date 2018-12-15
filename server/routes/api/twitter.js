@@ -69,10 +69,10 @@ router.get('/stream', (req, res) => {
   });
 });
 
-router.get('/', (req, res) => {
+router.get('/search', (req, res) => {
   const tweetsBox = [];
   twitter.get('search/tweets', {q: 'rwby'}, (error, tweets, response) => {
-    //console.log(tweets);
+    console.log(tweets);
     //tweets = tweetBox;
     res.send(tweets);
   });
