@@ -10,12 +10,18 @@ export function fetchUsers(): Promise {
 export function fetchTweets(): Promise {
   const endpoint: string = TwitterEndpoint + '/search';
   console.log(endpoint);
-  return
-    fetch(endpoint)
-      .then((response) => {
-        console.log(response);
-        response.json().then((tweet) => tweet)
-      });
+  let taco = 'undefined';
+  fetch(endpoint)
+    .then((response) => {
+      console.log(response);
+      taco = response;
+      response.json().then((tweet) => tweet)
+    });
+  if (taco !== 'undefined') {
+    return taco;
+  }
+
+      //.then((response) => response.json().then((tweet) => tweet));
 }
 
 export function fetchTweetStream(): Promise {

@@ -9,7 +9,7 @@ const defaultState: Object = {
   users: [],
   bacon: '',
   tweetStream: [],
-  tweets: [],
+  tweets: {},
   auth
 };
 

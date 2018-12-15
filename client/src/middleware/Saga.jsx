@@ -2,6 +2,7 @@
 
 // Fetch
 import {fetchUsers, fetchTweets, fetchTweetStream} from './TwitFetch';
+import { UsersEndpoint, TwitterEndpint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
 
 // Redux Saga
 import { put } from "redux-saga/effects";
@@ -52,9 +53,12 @@ export function* loadTweetStream(loadTweetStreamAction: Object): Generator<Promi
 export function* loadTweets(loadTweetsAction: Object): Generator<Promise<Object>, any, any> {
   console.log('this fired');
   try {
-    const tweets = yield fetchTweets();
-    console.log(tweets);
-    yield put({ type: TWEETS_LOADED, tweets: tweets});
+    const endpoint: string = TwitterEndpoint + '/search';
+    console.log(endpoint);
+    yield put({
+      type: TWEETS_LOADED,
+      tweets: (fetch(endpoint).then((response) => console.log(response)))
+    });
   } catch (error) {
     console.log(error);
   }
