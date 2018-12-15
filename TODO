@@ -1,0 +1,3 @@
+1. Replace index.js in the root folder to route to the actual pages that we are using
+2. Pushing auth id into the users table
+3. Pushing the rest of the data into the other tables
