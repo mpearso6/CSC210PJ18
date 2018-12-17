@@ -1,35 +1,36 @@
 
 // Endpoint
-import { UsersEndpoint, TwitterEndpint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
+import { UsersEndpoint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
 
 export function fetchUsers(): Promise {
   const endpoint: string = UsersEndpoint;
   return fetch(endpoint).then((response) => response.json().then((users) => users));
 }
 
-export function fetchTweets(): Promise {
-  const endpoint: string = TwitterEndpoint + '/search';
-  console.log(endpoint);
-  let taco = 'undefined';
-  fetch(endpoint)
-    .then((response) => {
-      console.log(response);
-      taco = response;
-      response.json().then((tweet) => tweet)
-    });
-  if (taco !== 'undefined') {
-    return taco;
-  }
-
-      //.then((response) => response.json().then((tweet) => tweet));
-}
-
-export function fetchTweetStream(): Promise {
-  const endpoint: string = TwitterEndpoint + '/stream';
-  return
+export function fetchSearchTweets(endpoint: String): Promise {
+  return new Promise( (resolve, reject) => {
     fetch(endpoint)
       .then((response) => {
         console.log(response);
-        response.json().then((tweet) => tweet)
-      });
+        return response.json();
+      })
+      .then((tweet) => {
+        console.log(tweet);
+        resolve(tweet);
+      })
+  });
+}
+
+export function fetchStreamTweets(endpoint: String): Promise {
+  return new Promise( (resolve, reject) => {
+    fetch(endpoint)
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((tweet) => {
+        console.log(tweet);
+        resolve(tweet);
+      })
+  });
 }

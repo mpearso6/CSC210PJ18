@@ -1,12 +1,11 @@
-/* @flow */
-
 // Fetch
-import {fetchUsers, fetchTweets, fetchTweetStream} from './TwitFetch';
-import { UsersEndpoint, TwitterEndpint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
+import {fetchUsers, fetchSearchTweets, fetchStreamTweets} from './TwitFetch';
+import { UsersEndpoint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
 
 // Redux Saga
-import { put } from "redux-saga/effects";
-import { takeEvery } from "redux-saga/effects";
+import { takeEvery, call, put, all } from "redux-saga/effects";
+
+// @flow
 
 // constants
 import {
@@ -14,10 +13,14 @@ import {
   TEST_LOADED,
   LOAD_USERS,
   USERS_LOADED,
-  LOAD_TWEET_STREAM,
-  TWEET_STREAM_LOADED,
-  LOAD_TWEETS,
-  TWEETS_LOADED
+  LOAD_STREAM_TWEETS,
+  STREAM_TWEETS_LOADED,
+  LOAD_SEARCH_TWEETS,
+  SEARCH_TWEETS_LOADED,
+  CLEAR_SEARCH_TWEETS,
+  SEARCH_TWEETS_CLEARED,
+  CLEAR_STREAM_TWEETS,
+  STREAM_TWEETS_CLEARED
 } from '../actions/Actions';
 
 // uuid
@@ -25,7 +28,7 @@ const uuidv4 = require("uuid/v4");
 
 export function* loadTest(loadTestAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const taco = 'taco';
+    const taco: String  = 'taco';
     yield put({ type: TEST_LOADED, test: {taco: taco} });
   } catch (error) {
     console.log(error);
@@ -41,24 +44,37 @@ export function* loadUsers(loadUsersAction: Object): Generator<Promise<Object>, 
   }
 }
 
-export function* loadTweetStream(loadTweetStreamAction: Object): Generator<Promise<Object>, any, any> {
+export function* loadStreamTweets(loadStreamTweetsAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const stream = yield fetchTweetStream();
-    yield put({ type: TWEET_STREAM_LOADED, stream: stream});
+    const data = yield call(fetchStreamTweets, TwitterEndpoint + '/stream');
+    yield put({ type: STREAM_TWEETS_LOADED, streamTweets: data});
   } catch (error) {
     console.log(error);
   }
 }
 
-export function* loadTweets(loadTweetsAction: Object): Generator<Promise<Object>, any, any> {
+export function* loadSearchTweets(loadSearchTweetsAction: Object): Generator<Promise<Object>, any, any> {
   console.log('this fired');
+
   try {
-    const endpoint: string = TwitterEndpoint + '/search';
-    console.log(endpoint);
-    yield put({
-      type: TWEETS_LOADED,
-      tweets: (fetch(endpoint).then((response) => console.log(response)))
-    });
+    const data = yield call(fetchSearchTweets, TwitterEndpoint + '/search')
+    yield put({ type: SEARCH_TWEETS_LOADED, searchTweets: data })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* clearSearchTweets(clearSearchTweetsAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    yield put({ type: SEARCH_TWEETS_CLEARED, searchTweets: [] })
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* clearStreamTweets(clearStreamTweetsAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    yield put({ type: STREAM_TWEETS_CLEARED, streamTweets: [] })
   } catch (error) {
     console.log(error);
   }
@@ -72,14 +88,21 @@ export function* watchForLoadUsers(): Generator<any, any, any>{
   yield takeEvery(LOAD_USERS, loadUsers);
 }
 
-export function* watchForLoadTweetStream(): Generator<any, any, any>{
-  yield takeEvery(LOAD_TWEET_STREAM, loadTweetStream);
+export function* watchForLoadStreamTweets(): Generator<any, any, any>{
+  yield takeEvery(LOAD_STREAM_TWEETS, loadStreamTweets);
 }
 
-export function* watchForLoadTweets(): Generator<any, any, any>{
-  yield takeEvery(LOAD_TWEETS, loadTweets);
+export function* watchForLoadSearchTweets(): Generator<any, any, any>{
+  yield takeEvery(LOAD_SEARCH_TWEETS, loadSearchTweets);
 }
 
+export function* watchForClearSearchTweets(): Generator<any, any, any>{
+  yield takeEvery(CLEAR_SEARCH_TWEETS, clearSearchTweets);
+}
+
+export function* watchForClearStreamTweets(): Generator<any, any, any>{
+  yield takeEvery(CLEAR_STREAM_TWEETS, clearStreamTweets);
+}
 /*
  * Generator function used to listen for all LOAD_DEFINITIONS dispatches and route them to loadDefinitionsSaga
  *
@@ -90,10 +113,12 @@ export function* watchForLoadTweets(): Generator<any, any, any>{
  *
  */
 export default function* rootSaga(): Generator<any, any, any> {
-  yield [
+  yield all([
     watchForLoadTest(),
     watchForLoadUsers(),
-    watchForLoadTweetStream(),
-    watchForLoadTweets()
-  ];
+    watchForLoadStreamTweets(),
+    watchForLoadSearchTweets(),
+    watchForClearSearchTweets(),
+    watchForClearStreamTweets()
+  ])
 }
