@@ -1,3 +1,4 @@
+// @flow
 import React, {Component} from 'react';
 import { CSSTransitionGroup } from 'react-transition-group';
 import socketIOClient from "socket.io-client";
@@ -25,8 +26,8 @@ class TwitterSegment extends Component {
     searchTerm: "JavaScript"
   };
 
-  constructor(props) {
-    super(props);
+  constructor(props: Object) {
+    super(props: Object);
 
     this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
@@ -35,23 +36,7 @@ class TwitterSegment extends Component {
   }
 
   componentDidMount() {
-    //this.props.loadTweetsAction();
-    /*
-    const socket = socketIOClient('http://localhost:5001/');
 
-    socket.on('connect', () => {
-      console.log("Socket Connected");
-      socket.on("tweets", data => {
-        let newList = [data].concat(this.state.items.slice(0, 15));
-        this.setState({items: newList});
-      });
-    });
-
-    socket.on('disconnect', () => {
-      socket.removeAllListeners("tweets");
-      console.log("Socket Disconnected");
-    });
-    */
   }
 
   handleChange(event) {
@@ -109,15 +94,20 @@ class TwitterSegment extends Component {
           </p>
         }
       </div>;
-    let itemsCards =
+    let streamCards =
       <div>
-      {items.map((data) =>
-        <p
-          key={data.uniqueId}
-          className={classes.textCenter}>
-          {data.text}
-        </p>
-      )}
+        {
+          streamTweets !== undefined ? streamTweets.map((data) =>
+          <p
+            key={data.uniqueId}
+            className={classes.textCenter}>
+            {data.text}
+          </p>)
+          :
+          <p>
+            test
+          </p>
+        }
     </div>;
 
     return (
@@ -139,7 +129,7 @@ class TwitterSegment extends Component {
                       tabName: "Tweet",
                       tabIcon: Face,
                       tabContent: (
-                        itemsCards
+                        streamCards
                       )
                     },
                     {
