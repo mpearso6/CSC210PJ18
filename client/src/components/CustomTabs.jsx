@@ -63,7 +63,8 @@ class CustomTabs extends Component {
 
     return (
       <Card plain={plainTabs}>
-        <CardHeader color={headerColor} plain={plainTabs}>
+        <CardHeader
+          color={headerColor} plain={plainTabs}>
           {title !== undefined ? (
             <div className={cardTitle}>{title}</div>
           ) : null}

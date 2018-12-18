@@ -9,4 +9,4 @@ export const StandardEndpoint: string = 'https://csc210pj18.herokuapp.com/standa
 
 export const TwitterEndpointBroken: string = 'https://csc210pj18.herokuapp.com/api';
 
-export const TwitterEndpoint: string = 'http://localhost:5000/api';
+export const TwitterEndpoint: string = 'http://localhost:5000/twitter';

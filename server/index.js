@@ -30,7 +30,8 @@ app
     next();
   })
   .use(express.static(path.join(__dirname, 'public')))
-  .use(bodyParser.json())
+  .use(bodyParser.json({ limit: '20mb'}))
+  .use(bodyParser.urlencoded({ limit: '20mb', extended: false }))
   .use('/twitter', twitter)
   .use('/watson', watson)
   .use('/users', user)

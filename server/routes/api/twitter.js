@@ -1,5 +1,6 @@
 const Twitter = require('twitter');
 const express = require('express');
+const bodyParser = require('body-parser');
 const router = express.Router();
 const http = require('http');
 const socketIo = require('socket.io');
@@ -7,6 +8,10 @@ const socketIo = require('socket.io');
 const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
+
+app
+  .use(bodyParser.json({ limit: '20mb'}))
+  .use(bodyParser.urlencoded({ limit: '20mb', extended: false }));
 
 //module.exports = (app, io) => {
 
@@ -20,12 +25,11 @@ let twitter = new Twitter({
 let socketConnection;
 let twitterStream;
 
-//app.locals.searchTerm = 'RWBY'; //Default search term for twitter stream.
-//app.locals.showRetweets = false;
+app.locals.searchTerm = 'RWBY'; //Default search term for
 
 router.get('/stream', (req, res) => {
   const tweets = [];
-  twitter.stream('statuses/filter', { track: 'RWBY' }, (stream) => {
+  twitter.stream('statuses/filter', { track: app.locals.streamTerm }, (stream) => {
       stream.on('data', (data) => {
           tweets.push(data);
           console.log(data);
@@ -50,15 +54,24 @@ router.get('/stream', (req, res) => {
 
 router.get('/search', (req, res) => {
   const tweetsBox = [];
-  twitter.get('search/tweets', {q: 'rwby'}, (error, tweets, response) => {
+  twitter.get('search/tweets', { q: app.locals.searchTerm }, (error, tweets, response) => {
     res.send(tweets);
   });
 });
 
 router.post('/setSearchTerm', (req, res) => {
-  let term = req.body.term;
-  app.locals.searchTerm = term;
-  });
+  let searchTerm = req.body.term;
+  console.log(searchTerm);
+  app.locals.searchTerm = searchTerm;
+});
+
+router.post('/setStreamTerm', (req, res) => {
+  let streamTerm = req.body.term;
+  console.log(req.body);
+  res.send(req.body)
+  app.locals.streamTerm = streamTerm;
+  console.log(app.locals.streamTerm);
+});
 
   /**
    * Pauses the twitter stream.

@@ -1,5 +1,5 @@
 // Fetch
-import {fetchUsers, fetchSearchTweets, fetchStreamTweets} from './TwitFetch';
+import {fetchUsers, fetchSearchTweets, fetchStreamTweets, changeStreamTweetTerm, changeSearchTweetTerm} from './TwitFetch';
 import { UsersEndpoint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
 
 // Redux Saga
@@ -14,6 +14,10 @@ import {
   LOAD_USERS,
   USERS_LOADED,
   LOAD_STREAM_TWEETS,
+  SUBMIT_SEARCH_TERM,
+  SUBMIT_STREAM_TERM,
+  SEARCH_TERM_SUBMITTED,
+  STREAM_TERM_SUBMITTED,
   STREAM_TWEETS_LOADED,
   LOAD_SEARCH_TWEETS,
   SEARCH_TWEETS_LOADED,
@@ -80,6 +84,27 @@ export function* clearStreamTweets(clearStreamTweetsAction: Object): Generator<P
   }
 }
 
+export function* submitSearchTweetsTerm(submitSearchTweetsTermAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const args = [TwitterEndpoint + '/setSearchTerm', submitSearchTweetsTermAction.term];
+    console.log(submitSearchTweetsTermAction.term);
+    const data = yield call(changeSearchTweetTerm, ...args);
+    yield put({ type: SEARCH_TERM_SUBMITTED})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* submitStreamTweetsTerm(submitStreamTweetsTermAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const args = [TwitterEndpoint + '/setStreamTerm', submitStreamTweetsTermAction.term];
+    const data = yield call(changeStreamTweetTerm, ...args);
+    yield put({ type: STREAM_TERM_SUBMITTED})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* watchForLoadTest(): Generator<any, any, any> {
   yield takeEvery(LOAD_TEST, loadTest);
 }
@@ -103,6 +128,14 @@ export function* watchForClearSearchTweets(): Generator<any, any, any>{
 export function* watchForClearStreamTweets(): Generator<any, any, any>{
   yield takeEvery(CLEAR_STREAM_TWEETS, clearStreamTweets);
 }
+
+export function* watchForSubmitSearchTweetsTerm(): Generator<any, any, any>{
+  yield takeEvery(SUBMIT_SEARCH_TERM, submitSearchTweetsTerm);
+}
+
+export function* watchForSubmitStreamTweetsTerm(): Generator<any, any, any>{
+  yield takeEvery(SUBMIT_STREAM_TERM, submitStreamTweetsTerm);
+}
 /*
  * Generator function used to listen for all LOAD_DEFINITIONS dispatches and route them to loadDefinitionsSaga
  *
@@ -119,6 +152,8 @@ export default function* rootSaga(): Generator<any, any, any> {
     watchForLoadStreamTweets(),
     watchForLoadSearchTweets(),
     watchForClearSearchTweets(),
-    watchForClearStreamTweets()
+    watchForClearStreamTweets(),
+    watchForSubmitSearchTweetsTerm(),
+    watchForSubmitStreamTweetsTerm()
   ])
 }

@@ -34,3 +34,29 @@ export function fetchStreamTweets(endpoint: String): Promise {
       })
   });
 }
+
+export function changeSearchTweetTerm(endpoint: String, term: String): Promise {
+  return new Promise( (resolve, reject) => {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({term: term})
+    }).then(resolve('resolved'))
+  });
+}
+
+export function changeStreamTweetTerm(endpoint: String, term: Object): Promise {
+  console.log(term);
+
+  return new Promise( (resolve, reject) => {
+    fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json; charset=utf-8'
+      },
+      body: JSON.stringify({term: term})
+    }).then(resolve('resolved'))
+  });
+}

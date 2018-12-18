@@ -56,6 +56,14 @@ export default function twitReducer(state: Object = defaultState, action: Object
         ...state,
         streamTweets: action.streamTweets
       }
+    case Actions.SEARCH_TERM_SUBMITTED:
+      return {
+        ...state
+      }
+    case Actions.STREAM_TERM_SUBMITTED:
+      return {
+        ...state
+      }
     default:
       return state;
   }

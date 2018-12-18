@@ -60,6 +60,9 @@ class AuthContainer extends Component {
 
     (this: any).handleClearSearchTweets = this.handleClearSearchTweets.bind(this);
     (this: any).handleClearStreamTweets = this.handleClearStreamTweets.bind(this);
+
+    (this: any).handleChangeSearchTweets = this.handleChangeSearchTweets.bind(this);
+    (this: any).handleChangeStreamTweets = this.handleChangeStreamTweets.bind(this);
   }
 
   goTo(route) {
@@ -88,6 +91,14 @@ class AuthContainer extends Component {
 
   handleClearStreamTweets = () => {
     this.props.clearStreamTweetsAction();
+  }
+
+  handleChangeSearchTweets = (term: String) => {
+    this.props.submitSearchTweetAction(term);
+  }
+
+  handleChangeStreamTweets = (term: String) => {
+    this.props.submitStreamTweetAction(term);
   }
 
   render() {
@@ -130,7 +141,9 @@ class AuthContainer extends Component {
             loadSearchTweets={this.handleTwitterSearch}
             loadStreamTweets={this.handleTwitterStream}
             clearSearchTweets={this.handleClearSearchTweets}
-            clearStreamTweets={this.handleClearStreamTweets}/>
+            clearStreamTweets={this.handleClearStreamTweets}
+            changeSearchTerm={this.handleChangeSearchTweets}
+            changeStreamTerm={this.handleChangeStreamTweets}/>
 
         </div>
       </div>
