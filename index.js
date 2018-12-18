@@ -9,6 +9,7 @@ const server = http.createServer(app);
 const io = socketio(server);
 
 const twitter = require('./routes/api/twitter')(app, io);
+const watson = require('./routes/api/watson');
 const user = require('./routes/user');
 const saved_tweets = require('./routes/saved_tweets');
 const standards = require('./routes/standards');
@@ -22,7 +23,8 @@ app
   })
   .use(express.static(path.join(__dirname, 'public')))
   .use(bodyParser.json())
-  .use('/api', twitter)
+  .use('/twitter', twitter)
+  .use('/watson', watson)
   .use('/users', user)
   .use('/saved_tweets', saved_tweets)
   .use('/standards', standards)
