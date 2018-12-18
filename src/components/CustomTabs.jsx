@@ -33,7 +33,17 @@ class CustomTabs extends Component {
   };
 
   handleSwitchChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+    new Promise( (resolve, reject) => {
+      this.setState({ [name]: event.target.checked });
+      resolve(this.state.checkedA);
+    }).then((bool) => {
+      if (!bool) {
+        this.props.loadTweetsAction();
+      }else{
+        this.props.clearTweetsAction();
+      }
+    });
+    //this.setState({ [name]: event.target.checked });
   };
 
   render() {
@@ -53,7 +63,8 @@ class CustomTabs extends Component {
 
     return (
       <Card plain={plainTabs}>
-        <CardHeader color={headerColor} plain={plainTabs}>
+        <CardHeader
+          color={headerColor} plain={plainTabs}>
           {title !== undefined ? (
             <div className={cardTitle}>{title}</div>
           ) : null}
@@ -104,14 +115,11 @@ class CustomTabs extends Component {
                     icon: classes.switchIcon,
                     iconChecked: classes.switchIconChecked,
                     bar: classes.switchBar
-                  }}
-                />
+                  }}/>
               }
               classes={{
                 label: classes.label
-              }}
-
-            />
+              }}/>
           </Tabs>
         </CardHeader>
         <CardBody>

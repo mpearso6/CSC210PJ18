@@ -1,5 +1,3 @@
-/* @flow */
-
 // Redux
 import { createStore, applyMiddleware, compose } from 'redux';
 import twitReducer from '../reducers/Reducer';

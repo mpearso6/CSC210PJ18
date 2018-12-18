@@ -53,12 +53,16 @@ import AltLoginSegment from '../components/segments/AltLoginSegment';
 
 class AuthContainer extends Component {
 
-  state = {
-    anchorEl: null
-  };
+  constructor(props) {
+    super(props);
+    (this: any).handleTwitterSearch = this.handleTwitterSearch.bind(this);
+    (this: any).handleTwitterStream = this.handleTwitterStream.bind(this);
 
-  componentDidMount() {
-    //console.log(this.props);
+    (this: any).handleClearSearchTweets = this.handleClearSearchTweets.bind(this);
+    (this: any).handleClearStreamTweets = this.handleClearStreamTweets.bind(this);
+
+    (this: any).handleChangeSearchTweets = this.handleChangeSearchTweets.bind(this);
+    (this: any).handleChangeStreamTweets = this.handleChangeStreamTweets.bind(this);
   }
 
   goTo(route) {
@@ -73,84 +77,33 @@ class AuthContainer extends Component {
     this.props.auth.logout();
   }
 
-  handleMenu = event => {
-    this.setState({ anchorEl: event.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
   handleTwitterSearch = () => {
-    this.props.loadTweetsAction();
+    this.props.loadSearchTweetsAction();
+  }
+
+  handleTwitterStream = () => {
+    this.props.loadStreamTweetsAction();
+  }
+
+  handleClearSearchTweets = () => {
+    this.props.clearSearchTweetsAction();
+  }
+
+  handleClearStreamTweets = () => {
+    this.props.clearStreamTweetsAction();
+  }
+
+  handleChangeSearchTweets = (term: String) => {
+    this.props.submitSearchTweetAction(term);
+  }
+
+  handleChangeStreamTweets = (term: String) => {
+    this.props.submitStreamTweetAction(term);
   }
 
   render() {
-    const {loadTweetsAction, classes, theme, ...rest } = this.props;
+    const {classes, tweets, theme, ...rest } = this.props;
     const {isAuthenticated, login, logout} = this.props.auth;
-    const {anchorEl } = this.state;
-    const open = Boolean(anchorEl);
-
-    const oldLoginPage =
-      <span
-        className={classes.root}>
-        <CssBaseline />
-        <AppBar
-          position="sticky"
-          color={classes.primaryColor}
-          className={isAuthenticated() ? classes.appBar : classes.appBarWide}>
-          <Toolbar>
-            <Typography
-              variant="h6"
-              color="inherit"
-              className={classes.grow}
-              noWrap>
-              Twit
-            </Typography>
-            <Button
-              color='inherit'
-              onClick={this.goTo.bind(this, 'home')}>
-              Home
-            </Button>
-            {
-              !isAuthenticated() &&
-              (<Button
-                onClick={login}>
-                Log In
-              </Button>)
-            }
-            {
-              isAuthenticated() && (
-                <span>
-                  <IconButton
-                    aria-owns={open ? 'menu-appbar' : undefined}
-                    aria-haspopup="true"
-                    onClick={this.handleMenu}
-                    color="inherit">
-                      <AccountCircle />
-                  </IconButton>
-                  <Menu
-                    id="menu-appbar"
-                    anchorEl={anchorEl}
-                    anchorOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'right',
-                    }}
-                    open={open}
-                    onClose={this.handleClose}>
-                    <MenuItem
-                      onClick={logout}>Log out</MenuItem>
-                  </Menu>
-                </span>
-              )
-            }
-          </Toolbar>
-        </AppBar>
-      </span>;
 
     return (
       <div>
@@ -179,14 +132,18 @@ class AuthContainer extends Component {
           </div>
         </Parallax>
 
-        <div
-          className={classNames(classes.main, classes.mainRaised)}>
+        <div className={classNames(classes.main, classes.mainRaised)}>
 
           <AltLoginSegment
             isAuthenticated={isAuthenticated}/>
 
           <TwitterSegment
-            loadTweetsAction={this.handleTwitterSearch.bind(this)}/>
+            loadSearchTweets={this.handleTwitterSearch}
+            loadStreamTweets={this.handleTwitterStream}
+            clearSearchTweets={this.handleClearSearchTweets}
+            clearStreamTweets={this.handleClearStreamTweets}
+            changeSearchTerm={this.handleChangeSearchTweets}
+            changeStreamTerm={this.handleChangeStreamTweets}/>
 
         </div>
       </div>
@@ -198,7 +155,8 @@ function mapStateToProps(state): Object {
   return {
     bacon: state.bacon,
     auth: state.auth,
-    tweets: state.tweets
+    searchTweets: state.searchTweets,
+    streamTweets: state.streamTweets
   }
 }
 
@@ -206,4 +164,6 @@ function mapActionCreatorsToProps(dispatch) {
   return bindActionCreators(AppActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapActionCreatorsToProps)(withStyles(authContainerStyle, { withTheme: true })(AuthContainer));
+export default
+  connect(mapStateToProps, mapActionCreatorsToProps)
+  (withStyles(authContainerStyle, { withTheme: true })(AuthContainer));

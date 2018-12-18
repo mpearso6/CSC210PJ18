@@ -1,15 +1,14 @@
-/* @flow */
+// @flow
 
 import * as Actions from '../actions/Actions';
 import Auth from '../utils/Auth';
-const auth = new Auth();
-//auth.login();
 
+const auth: Func = new Auth();
 const defaultState: Object = {
+  test: '',
   users: [],
-  bacon: '',
-  tweetStream: [],
-  tweets: {},
+  streamTweets: [],
+  searchTweets: [],
   auth
 };
 
@@ -22,13 +21,13 @@ const defaultState: Object = {
 * @param {Object} state - our application's state tree
 * @ return {Object} the updated copy of our application's state
 */
-export default function twitReducer(state = defaultState, action): Object {
+export default function twitReducer(state: Object = defaultState, action: Object): Object {
   switch(action.type) {
 
     case Actions.TEST_LOADED:
       return {
         ...state,
-        bacon: action.test
+        test: action.test
       }
     case Actions.USERS_LOADED:
       return {
@@ -36,16 +35,34 @@ export default function twitReducer(state = defaultState, action): Object {
         users: action.users
       }
 
-    case Actions.TWEET_STREAM_LOADED:
+    case Actions.STREAM_TWEETS_LOADED:
       return {
         ...state,
-        stream: action.stream
+        streamTweets: action.streamTweets
       }
 
-    case Actions.TWEETS_LOADED:
+    case Actions.SEARCH_TWEETS_LOADED:
       return {
         ...state,
-        tweets: action.tweets
+        searchTweets: action.searchTweets
+      }
+    case Actions.SEARCH_TWEETS_CLEARED:
+      return {
+        ...state,
+        searchTweets: action.searchTweets
+      }
+    case Actions.STREAM_TWEETS_CLEARED:
+      return {
+        ...state,
+        streamTweets: action.streamTweets
+      }
+    case Actions.SEARCH_TERM_SUBMITTED:
+      return {
+        ...state
+      }
+    case Actions.STREAM_TERM_SUBMITTED:
+      return {
+        ...state
       }
     default:
       return state;
