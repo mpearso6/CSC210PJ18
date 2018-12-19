@@ -8,6 +8,7 @@ export function fetchUsers(): Promise {
 }
 
 export function fetchSearchTweets(endpoint: String): Promise {
+  console.log(endpoint);
   return new Promise( (resolve, reject) => {
     fetch(endpoint)
       .then((response) => {
