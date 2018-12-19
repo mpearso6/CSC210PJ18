@@ -7,6 +7,6 @@ export const WatsonEndpoint: string = 'https://csc210pj18.herokuapp.com/watson_a
 
 export const StandardEndpoint: string = 'https://csc210pj18.herokuapp.com/standards';
 
-export const TwitterApiEndpoint: string = 'https://csc210pj18.herokuapp.com/twitter';
+export const TwitterEndpoint: string = 'https://csc210pj18.herokuapp.com/twitter';
 
 export const WatsonApiEndpoint: string = 'https://csc210pj18.herokuapp.com/watson';
