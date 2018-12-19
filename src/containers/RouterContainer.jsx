@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import { Router, Route, Switch} from "react-router-dom";
+import { Router, Route} from "react-router-dom";
 
 // Redux
 import { connect } from "react-redux";
@@ -13,22 +13,15 @@ import history from "../utils/history";
 import * as AppActions from "../actions/Actions";
 
 // Containers
-import HomeContainer from '../containers/HomeContainer';
 import AuthContainer from '../containers/AuthContainer';
 
 // Components
-import Navigation from '../components/Navigation';
 import Callback from '../components/Callback';
 
 export class AppRouter extends Component {
   _element = React.createElement;
 
   state = {};
-
-  constructor(props: Object) {
-    super(props);
-
-  }
 
   componentDidMount() {
 
@@ -49,7 +42,6 @@ export class AppRouter extends Component {
           <div>
 
             <Route path="/" render={(props) => <AuthContainer auth={this.props.auth} {...props} />} />
-            <Route path="/home" render={(props) => <HomeContainer auth={this.props.auth} {...props} />} />
             <Route path="/callback" render={(props) => {
                 handleAuthentication(props);
                 return <Callback {...props} />

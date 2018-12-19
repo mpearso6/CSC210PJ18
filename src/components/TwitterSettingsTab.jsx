@@ -47,7 +47,6 @@ class TwitterSettingsTab extends Component {
 
   render() {
     const {
-      termLabel,
       type
     } = this.props;
     return (

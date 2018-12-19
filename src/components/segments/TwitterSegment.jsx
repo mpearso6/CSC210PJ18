@@ -1,7 +1,5 @@
 // @flow
 import React, {Component} from 'react';
-import { CSSTransitionGroup } from 'react-transition-group';
-import socketIOClient from "socket.io-client";
 
 // Redux
 import {connect} from 'react-redux';
@@ -11,11 +9,16 @@ import Face from "@material-ui/icons/Face";
 import Chat from "@material-ui/icons/Chat";
 import Build from "@material-ui/icons/Build";
 
+// Material-ui
+import Switch from "@material-ui/core/Switch";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+
 // Components
 import GridContainer from '../GridContainer';
 import GridItem from '../GridItem';
 import CustomTabs from '../../components/CustomTabs';
 import TwitterSettingsTab from '../../components/TwitterSettingsTab';
+
 // Assests
 import tabStyle from '../../assests/components/segments/tabStyle';
 
@@ -24,14 +27,14 @@ import { withStyles } from '@material-ui/core/styles';
 class TwitterSegment extends Component {
 
   state = {
-    items: [],
-    searchTerm: "JavaScript"
+    search: false,
+    stream: false,
+    checkedStream: false,
+    checkedSearch: false
   };
 
   constructor(props: Object) {
     super(props: Object);
-
-    this.handleChange = this.handleChange.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
     this.handleResume = this.handleResume.bind(this);
     this.handlePause = this.handlePause.bind(this);
@@ -41,10 +44,33 @@ class TwitterSegment extends Component {
 
   }
 
-  handleChange(event) {
-    this.setState({searchTerm: event.target.value});
-  }
+  handleSwitchStreamChange = name => event => {
+    new Promise( (resolve, reject) => {
+      this.setState({ [name]: event.target.checked });
+      resolve(this.state.checkedStream);
+    }).then((bool) => {
+      if (!bool) {
+        this.props.loadStreamTweets();
+      }else{
+        this.props.clearStreamTweets();
+      }
+    });
+    //this.setState({ [name]: event.target.checked });
+  };
 
+  handleSwitchSearchChange = name => event => {
+    new Promise( (resolve, reject) => {
+      this.setState({ [name]: event.target.checked });
+      resolve(this.state.checkedSearch);
+    }).then((bool) => {
+      if (!bool) {
+        this.props.loadSearchTweets();
+      }else{
+        this.props.clearSearchTweets();
+      }
+    });
+    //this.setState({ [name]: event.target.checked });
+  };
   handleKeyPress(event) {
     if (event.key === 'Enter') {
       this.handleResume();
@@ -82,46 +108,40 @@ class TwitterSegment extends Component {
       changeStreamTerm,
       searchTweets,
       streamTweets } = this.props;
-    let { items } = this.state;
-    let searchCards =
-      <div>
-        {
-          searchTweets.statuses !== undefined ? searchTweets.statuses.map((data) =>
-          <p
-            key={data.uniqueId}
-            className={classes.textCenter}>
-            {data.text}
-          </p>)
-          :
-          <p>
-            test
-          </p>
-        }
-      </div>;
-    let streamCards =
-      <div>
-        {
-          streamTweets !== undefined ? streamTweets.map((data) =>
-          <p
-            key={data.uniqueId}
-            className={classes.textCenter}>
-            {data.text}
-          </p>)
-          :
-          <p>test</p>
-        }
-    </div>;
+
+    const
+      {
+        checkedSearch,
+        checkedStream
+      } = this.state;
 
     return (
       <div className={classes.section}>
         <div className={classes.container}>
           <div id='nav-tabs'>
             <h3>Twitter Tabs</h3>
-            <GridContainer>
+            <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={12}>
-                <h3>
-                  <small>Stream</small>
-                </h3>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={this.state.checkedStream}
+                      onChange={this.handleSwitchStreamChange("checkedStream")}
+                      value="checkedStream"
+                      classes={{
+                        switchBase: classes.switchBase,
+                        checked: classes.switchChecked,
+                        icon: classes.switchIcon,
+                        iconChecked: classes.switchIconChecked,
+                        bar: classes.switchBar
+                      }}/>
+                  }
+                  label={
+                    checkedStream ? 'stream on' : 'stream off'
+                  }
+                  classes={{
+                    label: classes.label
+                  }}/>
                 <CustomTabs
                   plainTabs
                   loadTweetsAction={loadStreamTweets}
@@ -132,7 +152,18 @@ class TwitterSegment extends Component {
                       tabName: "Tweet",
                       tabIcon: Face,
                       tabContent: (
-                        streamCards
+                        <div>
+                          {
+                            streamTweets !== undefined ? streamTweets.map((data) =>
+                            <p
+                              key={data.uniqueId}
+                              className={classes.textCenter}>
+                              {data.text}
+                            </p>)
+                            :
+                            <p>test</p>
+                          }
+                        </div>
                       )
                     },
                     {
@@ -166,9 +197,26 @@ class TwitterSegment extends Component {
 
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
-                <h3>
-                  <small>Search</small>
-                </h3>
+                  <FormControlLabel
+                    control={
+                      <Switch
+                        checked={this.state.checkedSearch}
+                        onChange={this.handleSwitchSearchChange("checkedSearch")}
+                        value="checkedSearch"
+                        classes={{
+                          switchBase: classes.switchBase,
+                          checked: classes.switchChecked,
+                          icon: classes.switchIcon,
+                          iconChecked: classes.switchIconChecked,
+                          bar: classes.switchBar
+                        }}/>
+                    }
+                    label={
+                      checkedSearch ? 'search on' : 'search off'
+                    }
+                    classes={{
+                      label: classes.label
+                    }}/>
                 <CustomTabs
                   plainTabs
                   loadTweetsAction={loadSearchTweets}
@@ -179,7 +227,20 @@ class TwitterSegment extends Component {
                       tabName: "Tweet",
                       tabIcon: Face,
                       tabContent: (
-                        searchCards
+                        <div>
+                          {
+                            searchTweets.statuses !== undefined ? searchTweets.statuses.map((data) =>
+                            <p
+                              key={data.uniqueId}
+                              className={classes.textCenter}>
+                              {data.text}
+                            </p>)
+                            :
+                            <p>
+                              test
+                            </p>
+                          }
+                        </div>
                       )
                     },
                     {

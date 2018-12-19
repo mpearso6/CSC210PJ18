@@ -6,7 +6,7 @@ export function fetchUsers(endpoint: String): Promise {
         return response.json();
       })
       .then((users) => {
-        users
+        resolve(users);
       })
   });
 }

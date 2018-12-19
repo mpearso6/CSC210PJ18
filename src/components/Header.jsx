@@ -1,9 +1,6 @@
 import React, {Component} from 'react';
 import classNames from "classnames";
-// nodejs library to set properties for components
-import PropTypes from "prop-types";
 // @material-ui/core components
-//
 import withStyles from "@material-ui/core/styles/withStyles";
 
 import AppBar from "@material-ui/core/AppBar";
@@ -59,7 +56,6 @@ class Header extends Component {
   render() {
     const {
       classes,
-      theme,
       brand,
       color,
       fixed,
@@ -119,4 +115,4 @@ class Header extends Component {
   }
 }
 
-export default withStyles(headerStyle, {withTheme: true})(Header);
+export default withStyles(headerStyle)(Header);

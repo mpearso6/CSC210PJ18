@@ -1,5 +1,3 @@
-import { UsersEndpoint, WatsonApiEndpoint, StandardEndpoint, TwitterApiEndpoint } from '../utils/Constants';
-
 export function fetchAnalysis(endpoint: String): Promise {
   return new Promise( (resolve, reject) => {
     fetch(endpoint)

@@ -1,15 +1,14 @@
+// @flow
 // Fetch
 import {fetchUsers, fetchSearchTweets, fetchStreamTweets, changeStreamTweetTerm, changeSearchTweetTerm} from './TwitFetch';
 import {fetchAnalysis} from './WatsonFetch';
 
 // Constants
-import { UsersEndpoint, WatsonApiEndpoint, StandardEndpoint, TwitterApiEndpoint } from '../utils/Constants';
+import { UsersEndpoint, WatsonApiEndpoint, TwitterApiEndpoint } from '../utils/Constants';
 
 
 // Redux Saga
 import { takeEvery, call, put, all } from "redux-saga/effects";
-
-// @flow
 
 // constants
 import {
@@ -34,8 +33,6 @@ import {
 } from '../actions/Actions';
 
 // uuid
-const uuidv4 = require("uuid/v4");
-
 export function* loadTest(loadTestAction: Object): Generator<Promise<Object>, any, any> {
   try {
     const taco: String  = 'taco';
@@ -94,7 +91,7 @@ export function* submitSearchTweetsTerm(submitSearchTweetsTermAction: Object): G
   try {
     const args = [TwitterApiEndpoint + '/setSearchTerm', submitSearchTweetsTermAction.term];
     console.log(submitSearchTweetsTermAction.term);
-    const data = yield call(changeSearchTweetTerm, ...args);
+    yield call(changeSearchTweetTerm, ...args);
     yield put({ type: SEARCH_TERM_SUBMITTED})
   } catch (error) {
     console.log(error);
@@ -104,7 +101,7 @@ export function* submitSearchTweetsTerm(submitSearchTweetsTermAction: Object): G
 export function* submitStreamTweetsTerm(submitStreamTweetsTermAction: Object): Generator<Promise<Object>, any, any> {
   try {
     const args = [TwitterApiEndpoint + '/setStreamTerm', submitStreamTweetsTermAction.term];
-    const data = yield call(changeStreamTweetTerm, ...args);
+    yield call(changeStreamTweetTerm, ...args);
     yield put({ type: STREAM_TERM_SUBMITTED})
   } catch (error) {
     console.log(error);
@@ -114,7 +111,7 @@ export function* submitStreamTweetsTerm(submitStreamTweetsTermAction: Object): G
 export function* loadAnalysis(loadAnalysisAction: Object): Generator<Promise<Object>, any, any> {
   try {
     const data = yield call(fetchAnalysis, WatsonApiEndpoint);
-    yield put({ type: STREAM_TERM_SUBMITTED})
+    yield put({ type: ANALYSIS_LOADED, data})
   } catch (error) {
     console.log(error);
   }

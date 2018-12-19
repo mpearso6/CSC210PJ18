@@ -7,19 +7,15 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Icon from "@material-ui/core/Icon";
 
-// Material-ui
-import Switch from "@material-ui/core/Switch";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 // Components
 import Card from "./Card";
 import CardBody from "./CardBody";
 import CardHeader from "./CardHeader";
 
-import Typography from '@material-ui/core/Typography';
 
 import withStyles from "@material-ui/core/styles/withStyles";
 
-import tabStyle from '../assests/components/segments/tabStyle';
+import customTabStyle from '../assests/components/customTabsStyle';
 
 
 class CustomTabs extends Component {
@@ -104,24 +100,6 @@ class CustomTabs extends Component {
                 />
               );
             })}
-            <div className={classes.flex}></div>
-            <FormControlLabel
-              control={
-                <Switch
-                  checked={this.state.checkedA}
-                  onChange={this.handleSwitchChange("checkedA")}
-                  value="checkedA"
-                  classes={{
-                    switchBase: classes.switchBase,
-                    checked: classes.switchChecked,
-                    icon: classes.switchIcon,
-                    iconChecked: classes.switchIconChecked,
-                    bar: classes.switchBar
-                  }}/>
-              }
-              classes={{
-                label: classes.label
-              }}/>
           </Tabs>
         </CardHeader>
         <CardBody>
@@ -138,4 +116,4 @@ class CustomTabs extends Component {
 
 }
 
-export default (withStyles(tabStyle)(CustomTabs));
+export default (withStyles(customTabStyle)(CustomTabs));
