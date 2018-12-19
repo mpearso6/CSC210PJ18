@@ -49,6 +49,7 @@ router.get('/stream', (req, res) => {
 router.get('/search', (req, res) => {
   const tweetsBox = [];
   twitter.get('search/tweets', { q: app.locals.searchTerm }, (error, tweets, response) => {
+
     res.send(tweets);
   });
 });
