@@ -1,6 +1,10 @@
 // Fetch
 import {fetchUsers, fetchSearchTweets, fetchStreamTweets, changeStreamTweetTerm, changeSearchTweetTerm} from './TwitFetch';
-import { UsersEndpoint, WatsonEndpoint, StandardEndpoint, TwitterEndpoint } from '../utils/Constants';
+import {fetchAnalysis} from './WatsonFetch';
+
+// Constants
+import { UsersEndpoint, WatsonApiEndpoint, StandardEndpoint, TwitterApiEndpoint } from '../utils/Constants';
+
 
 // Redux Saga
 import { takeEvery, call, put, all } from "redux-saga/effects";
@@ -13,6 +17,8 @@ import {
   TEST_LOADED,
   LOAD_USERS,
   USERS_LOADED,
+  LOAD_ANALYSIS,
+  ANALYSIS_LOADED,
   LOAD_STREAM_TWEETS,
   SUBMIT_SEARCH_TERM,
   SUBMIT_STREAM_TERM,
@@ -41,7 +47,7 @@ export function* loadTest(loadTestAction: Object): Generator<Promise<Object>, an
 
 export function* loadUsers(loadUsersAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const users = yield fetchUsers();
+    const users = yield call(fetchUsers, UsersEndpoint);
     yield put({ type: USERS_LOADED, users: users});
   } catch (error) {
     console.log(error);
@@ -50,7 +56,7 @@ export function* loadUsers(loadUsersAction: Object): Generator<Promise<Object>, 
 
 export function* loadStreamTweets(loadStreamTweetsAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const data = yield call(fetchStreamTweets, TwitterEndpoint + '/stream');
+    const data = yield call(fetchStreamTweets, TwitterApiEndpoint + '/stream');
     yield put({ type: STREAM_TWEETS_LOADED, streamTweets: data});
   } catch (error) {
     console.log(error);
@@ -61,7 +67,7 @@ export function* loadSearchTweets(loadSearchTweetsAction: Object): Generator<Pro
   console.log('this fired');
 
   try {
-    const data = yield call(fetchSearchTweets, TwitterEndpoint + '/search')
+    const data = yield call(fetchSearchTweets, TwitterApiEndpoint + '/search')
     yield put({ type: SEARCH_TWEETS_LOADED, searchTweets: data })
   } catch (error) {
     console.log(error);
@@ -86,7 +92,7 @@ export function* clearStreamTweets(clearStreamTweetsAction: Object): Generator<P
 
 export function* submitSearchTweetsTerm(submitSearchTweetsTermAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const args = [TwitterEndpoint + '/setSearchTerm', submitSearchTweetsTermAction.term];
+    const args = [TwitterApiEndpoint + '/setSearchTerm', submitSearchTweetsTermAction.term];
     console.log(submitSearchTweetsTermAction.term);
     const data = yield call(changeSearchTweetTerm, ...args);
     yield put({ type: SEARCH_TERM_SUBMITTED})
@@ -97,8 +103,17 @@ export function* submitSearchTweetsTerm(submitSearchTweetsTermAction: Object): G
 
 export function* submitStreamTweetsTerm(submitStreamTweetsTermAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const args = [TwitterEndpoint + '/setStreamTerm', submitStreamTweetsTermAction.term];
+    const args = [TwitterApiEndpoint + '/setStreamTerm', submitStreamTweetsTermAction.term];
     const data = yield call(changeStreamTweetTerm, ...args);
+    yield put({ type: STREAM_TERM_SUBMITTED})
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* loadAnalysis(loadAnalysisAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const data = yield call(fetchAnalysis, WatsonApiEndpoint);
     yield put({ type: STREAM_TERM_SUBMITTED})
   } catch (error) {
     console.log(error);
@@ -136,11 +151,10 @@ export function* watchForSubmitSearchTweetsTerm(): Generator<any, any, any>{
 export function* watchForSubmitStreamTweetsTerm(): Generator<any, any, any>{
   yield takeEvery(SUBMIT_STREAM_TERM, submitStreamTweetsTerm);
 }
-/*
- * Generator function used to listen for all LOAD_DEFINITIONS dispatches and route them to loadDefinitionsSaga
- *
- */
 
+export function* watchForSentenceAnalysis(): Generator<any, any, any>{
+  yield takeEvery(LOAD_ANALYSIS, loadAnalysis);
+}
 /*
  * Generator function that initializes all of our 'watch' sagas
  *
@@ -154,6 +168,7 @@ export default function* rootSaga(): Generator<any, any, any> {
     watchForClearSearchTweets(),
     watchForClearStreamTweets(),
     watchForSubmitSearchTweetsTerm(),
-    watchForSubmitStreamTweetsTerm()
+    watchForSubmitStreamTweetsTerm(),
+    watchForSentenceAnalysis(),
   ])
 }

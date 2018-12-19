@@ -108,9 +108,7 @@ class TwitterSegment extends Component {
             {data.text}
           </p>)
           :
-          <p>
-            test
-          </p>
+          <p>test</p>
         }
     </div>;
 
@@ -125,6 +123,7 @@ class TwitterSegment extends Component {
                   <small>Stream</small>
                 </h3>
                 <CustomTabs
+                  plainTabs
                   loadTweetsAction={loadStreamTweets}
                   clearTweetsAction={clearStreamTweets}
                   headerColor="rose"
@@ -171,6 +170,7 @@ class TwitterSegment extends Component {
                   <small>Search</small>
                 </h3>
                 <CustomTabs
+                  plainTabs
                   loadTweetsAction={loadSearchTweets}
                   clearTweetsAction={clearSearchTweets}
                   headerColor="rose"

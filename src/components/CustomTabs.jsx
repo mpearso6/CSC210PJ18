@@ -62,9 +62,11 @@ class CustomTabs extends Component {
     });
 
     return (
-      <Card plain={plainTabs}>
+      <Card
+        plain={plainTabs}>
         <CardHeader
-          color={headerColor} plain={plainTabs}>
+          color={headerColor}
+          plain={plainTabs}>
           {title !== undefined ? (
             <div className={cardTitle}>{title}</div>
           ) : null}
@@ -136,4 +138,4 @@ class CustomTabs extends Component {
 
 }
 
-export default (withStyles(tabStyle, { withTheme: true })(CustomTabs));
+export default (withStyles(tabStyle)(CustomTabs));

@@ -3,6 +3,10 @@ export const LOAD_TEST = 'LOAD_TEST';
 export const TEST_LOADED = 'TEST_LOADED';
 export const LOAD_USERS = 'LOAD_USERS';
 export const USERS_LOADED = 'USERS_LOADED';
+
+export const LOAD_ANALYSIS = 'LOAD_ANALYSIS';
+export const ANALYSIS_LOADED = 'ANALYSIS_LOADED';
+
 export const SUBMIT_SEARCH_TERM = 'SUBMIT_SEARCH_TERM';
 export const SUBMIT_STREAM_TERM = 'SUBMIT_STREAM_TERM';
 export const SEARCH_TERM_SUBMITTED = 'SEARCH_TERM_SUBMITTED';
@@ -60,9 +64,15 @@ export function submitSearchTweetAction(term): Object {
   }
 }
 
-export function submitStreamTweetAction(term): Object { 
+export function submitStreamTweetAction(term): Object {
   return {
     term: term,
     type: SUBMIT_STREAM_TERM
+  }
+}
+
+export function loadAnalysisAction(): Object {
+  return {
+    type: ANALYSIS_LOADED
   }
 }
