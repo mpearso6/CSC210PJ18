@@ -1,1 +1,1 @@
-web: concurrently --kill-others \"npm run start\" \"npm run client\"
+web: node index.js; react-scripts test
