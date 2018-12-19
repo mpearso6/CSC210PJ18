@@ -1,1 +1,1 @@
-web: node index.js; react-scripts test
+web: react-scripts start; node index.js;
