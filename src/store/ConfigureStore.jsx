@@ -11,8 +11,7 @@ export function configureStore() {
   return createStore(
     twitReducer,
     compose(
-      applyMiddleware(sagaMiddleWare),
-      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+      applyMiddleware(sagaMiddleWare)
     )
   );
 }
