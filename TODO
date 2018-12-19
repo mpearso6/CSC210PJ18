@@ -1,0 +1,4 @@
+1. Adding POST endpoints
+2. Pushing auth ID into the users table
+3. Pushing tweets to saved_tweets table
+4. Pushing watson analysis to watson analysis table, based on the analysis done on the tweets
