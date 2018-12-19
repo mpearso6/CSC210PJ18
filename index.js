@@ -8,7 +8,8 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-const twitter = require('./routes/api/twitter')(app, io);
+const twitter = require('./routes/api/twitter');
+const watson = require('./routes/api/watson');
 const user = require('./routes/user');
 const saved_tweets = require('./routes/saved_tweets');
 const standards = require('./routes/standards');
@@ -22,12 +23,13 @@ app
   })
   .use(express.static(path.join(__dirname, 'public')))
   .use(bodyParser.json())
-  .use('/api', twitter)
+  .use('/twitter', twitter)
+  .use('/watson', watson)
   .use('/users', user)
   .use('/saved_tweets', saved_tweets)
   .use('/standards', standards)
   .use('/watson_analysis', watson_analysis)
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('./client/public/index'))
+  .get('/', (req, res) => res.render('./pages/index'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
