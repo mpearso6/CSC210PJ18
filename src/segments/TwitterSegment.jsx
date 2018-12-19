@@ -14,13 +14,14 @@ import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 
 // Components
-import GridContainer from '../GridContainer';
-import GridItem from '../GridItem';
-import CustomTabs from '../../components/CustomTabs';
-import TwitterSettingsTab from '../../components/TwitterSettingsTab';
+import Button from '../components/Button';
+import GridContainer from '../components/GridContainer';
+import GridItem from '../components/GridItem';
+import CustomTabs from '../components/CustomTabs';
+import TwitterSettingsTab from '../components/TwitterSettingsTab';
 
 // Assests
-import tabStyle from '../../assests/components/segments/tabStyle';
+import tabStyle from '../assests/components/segments/tabStyle';
 
 import { withStyles } from '@material-ui/core/styles';
 
@@ -35,13 +36,26 @@ class TwitterSegment extends Component {
 
   constructor(props: Object) {
     super(props: Object);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
-    this.handleResume = this.handleResume.bind(this);
-    this.handlePause = this.handlePause.bind(this);
+    (this: any).handleStreamAnalysis = this.handleStreamAnalysis.bind(this);
+    (this: any).handleSearchAnalysis = this.handleSearchAnalysis.bind(this);
   }
 
-  componentDidMount() {
+  handleStreamAnalysis = () => {
+    const {streamTweets} = this.props;
+    if (streamTweets && streamTweets.length) {
+      console.log(streamTweets);
+    }else{
+      console.log('stream tweets is empty');
+    }
+  }
 
+  handleSearchAnalysis = () => {
+    const {searchTweets} = this.props;
+    if (searchTweets.statuses && searchTweets.statuses.length) {
+      console.log(searchTweets.statuses);
+    }else{
+      console.log('search tweets is empty');
+    }
   }
 
   handleSwitchStreamChange = name => event => {
@@ -55,7 +69,6 @@ class TwitterSegment extends Component {
         this.props.clearStreamTweets();
       }
     });
-    //this.setState({ [name]: event.target.checked });
   };
 
   handleSwitchSearchChange = name => event => {
@@ -71,35 +84,11 @@ class TwitterSegment extends Component {
     });
     //this.setState({ [name]: event.target.checked });
   };
-  handleKeyPress(event) {
-    if (event.key === 'Enter') {
-      this.handleResume();
-    }
-  }
-
-  handleResume() {
-    let term = this.state.searchTerm;
-    fetch("/setSearchTerm", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({term})
-    })
-  }
-
-  handlePause(event) {
-    fetch("/pause", {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-  }
 
   render() {
     const {
       classes,
+      color,
       loadSearchTweets,
       loadStreamTweets,
       clearSearchTweets,
@@ -122,6 +111,13 @@ class TwitterSegment extends Component {
             <h3>Twitter Tabs</h3>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={12}>
+                <Button
+                  style={{marginRight: '1rem'}}
+                  onClick={this.handleStreamAnalysis}
+                  color="info"
+                  round>
+                  analysis
+                </Button>
                 <FormControlLabel
                   control={
                     <Switch
@@ -142,12 +138,23 @@ class TwitterSegment extends Component {
                   classes={{
                     label: classes.label
                   }}/>
+
                 <CustomTabs
                   plainTabs
                   loadTweetsAction={loadStreamTweets}
                   clearTweetsAction={clearStreamTweets}
-                  headerColor="rose"
+                  headerColor={color}
                   tabs={[
+                    {
+                      tabName: "Settings",
+                      tabIcon: Build,
+                      tabContent: (
+                        <TwitterSettingsTab
+                          changeTerm={changeStreamTerm}
+                          type='stream'
+                          termLabel='Change stream term'/>
+                      )
+                    },
                     {
                       tabName: "Tweet",
                       tabIcon: Face,
@@ -181,22 +188,19 @@ class TwitterSegment extends Component {
                           level that things could be at.
                         </p>
                       )
-                    },
-                    {
-                      tabName: "Settings",
-                      tabIcon: Build,
-                      tabContent: (
-                        <TwitterSettingsTab
-                          changeTerm={changeStreamTerm}
-                          type='stream'
-                          termLabel='Change stream term'/>
-                      )
                     }
                   ]}
                   />
 
               </GridItem>
               <GridItem xs={12} sm={12} md={12}>
+                <Button
+                  style={{marginRight: '1rem'}}
+                  onClick={this.handleSearchAnalysis}
+                  color="info"
+                  round>
+                  analysis
+                </Button>
                   <FormControlLabel
                     control={
                       <Switch
@@ -221,23 +225,34 @@ class TwitterSegment extends Component {
                   plainTabs
                   loadTweetsAction={loadSearchTweets}
                   clearTweetsAction={clearSearchTweets}
-                  headerColor="rose"
+                  headerColor={color}
                   tabs={[
+                    {
+                      tabName: "Settings",
+                      tabIcon: Build,
+                      tabContent: (
+                        <TwitterSettingsTab
+                          changeTerm={changeSearchTerm}
+                          type='search'
+                          termLabel='Change stream term'/>
+                      )
+                    },
                     {
                       tabName: "Tweet",
                       tabIcon: Face,
                       tabContent: (
                         <div>
                           {
-                            searchTweets.statuses !== undefined ? searchTweets.statuses.map((data) =>
-                            <p
-                              key={data.uniqueId}
-                              className={classes.textCenter}>
-                              {data.text}
-                            </p>)
+                            searchTweets.statuses !== undefined ? searchTweets.statuses.map((data, index) =>
+                              <p
+                                key={index++}
+                                className={classes.textCenter}>
+                                {data.text}
+                              </p>
+                            )
                             :
                             <p>
-                              test
+                              Click the toggle to read some tweets!
                             </p>
                           }
                         </div>
@@ -258,16 +273,6 @@ class TwitterSegment extends Component {
                           level that things could be at.
                         </p>
                       )
-                    },
-                    {
-                      tabName: "Settings",
-                      tabIcon: Build,
-                      tabContent: (
-                        <TwitterSettingsTab
-                          changeTerm={changeSearchTerm}
-                          type='search'
-                          termLabel='Change stream term'/>
-                      )
                     }
                   ]}
                   />
@@ -282,7 +287,6 @@ class TwitterSegment extends Component {
 
 function mapStateToProps(state): Object {
   return {
-    bacon: state.bacon,
     auth: state.auth,
     searchTweets: state.searchTweets,
     streamTweets: state.streamTweets

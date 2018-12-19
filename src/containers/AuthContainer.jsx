@@ -28,13 +28,14 @@ import GridContainer from '../components/GridContainer';
 import GridItem from '../components/GridItem';
 
 // Segments
-import TwitterSegment from '../components/segments/TwitterSegment';
-import AltLoginSegment from '../components/segments/AltLoginSegment';
+import TwitterSegment from '../segments/TwitterSegment';
+import InfoSegment from '../segments/InfoSegment';
 
 class AuthContainer extends Component {
 
   constructor(props) {
     super(props);
+    (this: any).handleAnalysis = this.handleAnalysis.bind(this);
     (this: any).handleTwitterSearch = this.handleTwitterSearch.bind(this);
     (this: any).handleTwitterStream = this.handleTwitterStream.bind(this);
 
@@ -55,6 +56,10 @@ class AuthContainer extends Component {
 
   logout() {
     this.props.auth.logout();
+  }
+
+  handleAnalysis = (tweetsArray: Array) => {
+    this.props.loadAnalysisAction(tweetsArray);
   }
 
   handleTwitterSearch = () => {
@@ -101,7 +106,7 @@ class AuthContainer extends Component {
           color="transparent"
           changeColorOnScroll={{
             height: 400,
-            color: "rose"
+            color: "info"
           }}
           {...rest}/>
         <Parallax image={require('../assests/images/bg4.jpg')}>
@@ -113,7 +118,16 @@ class AuthContainer extends Component {
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
-
+            <GridContainer justify="center">
+              <GridItem xs={12} sm={12} md={8}>
+                <div className={classes.profile}>
+                  <div className={classes.name}>
+                    <h2 className={classes.title}>Twit</h2>
+                    <h3><small>CSC 210 Final App</small></h3>
+                  </div>
+                </div>
+              </GridItem>
+            </GridContainer>
             <div className={classes.description}>
               <p>
                 An artist of considerable range, Chet Faker — the name taken
@@ -130,20 +144,14 @@ class AuthContainer extends Component {
                 */}
                 <NavPills
                   alignCenter
-                  color="primary"
+                  color="info"
                   tabs={[
                     {
-                      tabButton: "Studio",
-                      tabIcon: Camera,
+                      tabButton: "Favorite",
+                      tabIcon: Favorite,
                       tabContent: (
-                        <GridContainer justify="center">
-                          <GridItem xs={12} sm={12} md={6}>
-
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={6}>
-
-                          </GridItem>
-                        </GridContainer>
+                        <InfoSegment
+                          isAuthenticated={isAuthenticated}/>
                       )
                     },
                     {
@@ -151,6 +159,7 @@ class AuthContainer extends Component {
                       tabIcon: Palette,
                       tabContent: (
                         <TwitterSegment
+                          color='info'
                           loadSearchTweets={this.handleTwitterSearch}
                           loadStreamTweets={this.handleTwitterStream}
                           clearSearchTweets={this.handleClearSearchTweets}
@@ -160,14 +169,14 @@ class AuthContainer extends Component {
                       )
                     },
                     {
-                      tabButton: "Favorite",
-                      tabIcon: Favorite,
+                      tabButton: "Studio",
+                      tabIcon: Camera,
                       tabContent: (
                         <GridContainer justify="center">
-                          <GridItem xs={12} sm={12} md={4}>
+                          <GridItem xs={12} sm={12} md={6}>
 
                           </GridItem>
-                          <GridItem xs={12} sm={12} md={4}>
+                          <GridItem xs={12} sm={12} md={6}>
 
                           </GridItem>
                         </GridContainer>

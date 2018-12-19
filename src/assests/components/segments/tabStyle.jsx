@@ -1,5 +1,3 @@
-import { container } from '../../material-kit-react';
-
 const tabsStyle = {
   section: {
     padding: "70px 0"

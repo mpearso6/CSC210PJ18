@@ -20,7 +20,7 @@ class CardHeader extends Component {
     } = this.props;
     const cardHeaderClasses = classNames(
       {[classes.cardHeader]: true},
-      {[classes.roseCardHeader]: color},
+      {[classes.infoCardHeader]: color},
       {[classes.cardHeaderPlain]: plain},
       {[className]: className !== undefined}
     );

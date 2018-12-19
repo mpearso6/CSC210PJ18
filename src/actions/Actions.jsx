@@ -71,7 +71,7 @@ export function submitStreamTweetAction(term): Object {
   }
 }
 
-export function loadAnalysisAction(): Object {
+export function loadAnalysisAction(tweetArray: Array): Object {
   return {
     type: ANALYSIS_LOADED
   }
