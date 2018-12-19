@@ -1,2 +1,1 @@
-web: node index.js -p 5000
-web: react-scripts start -3000
+web: $(node index.js -p 5000, react-scripts start -p 3000)
