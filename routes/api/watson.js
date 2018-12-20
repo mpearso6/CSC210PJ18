@@ -47,6 +47,7 @@ router.post('/analyze', (req, res) => {
   + 'sales have been disappointing for the past three '
   + 'quarters. We have a competitive product, but we '
   + 'need to do a better job of selling it!';
+  console.log(req.body);
 
   let toneParams = {
     tone_input: {'text': req.body!== undefined ? defaultText : req.body.data },
