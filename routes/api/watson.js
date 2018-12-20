@@ -50,7 +50,7 @@ router.post('/analyze', (req, res) => {
   console.log(req.body);
 
   let toneParams = {
-    tone_input: {'text': req.body!== undefined ? defaultText : req.body.data },
+    tone_input: {'text': req.body.data },
     content_type: 'application/json'
   };
 
