@@ -38,33 +38,6 @@ class Footer extends Component {
                   Twit
                 </a>
               </ListItem>
-              <ListItem className={classes.inlineBlock}>
-                <a
-                  href="https://www.creative-tim.com/presentation"
-                  className={classes.block}
-                  target="_blank"
-                >
-                  About us
-                </a>
-              </ListItem>
-              <ListItem className={classes.inlineBlock}>
-                <a
-                  href="http://blog.creative-tim.com/"
-                  className={classes.block}
-                  target="_blank"
-                >
-                  Blog
-                </a>
-              </ListItem>
-              <ListItem className={classes.inlineBlock}>
-                <a
-                  href="https://www.creative-tim.com/license"
-                  className={classes.block}
-                  target="_blank"
-                >
-                  Licenses
-                </a>
-              </ListItem>
             </List>
           </div>
           <div className={classes.right}>
@@ -75,7 +48,7 @@ class Footer extends Component {
               className={aClasses}
               target="_blank"
             >
-              Creative Tim
+              CSC210
             </a>{" "}
             for a better web.
           </div>
