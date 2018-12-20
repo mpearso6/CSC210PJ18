@@ -7,7 +7,7 @@ const connection = db.connection;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    if(req.query.auth0ID === null){
+    if(req.query.auth0ID === undefined){
         connection.query('SELECT * from User', function (error, results, fields) {
             if(error){
                 res.send(JSON.stringify({"status": 500, "error": error, "response": null}));
@@ -32,15 +32,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function (req, res) {
-    var TwitterHandle = req.body.TwitterHandle === null ? '' : req.body.TwitterHandle;
-    var auth0ID = req.body.auth0ID === null ? '' : req.body.auth0ID;
+    var TwitterHandle = req.body.TwitterHandle === undefined ? '' : req.body.TwitterHandle;
 
-    if(auth0ID === null){
+    if(req.body.auth0ID === undefined){
         res.send(JSON.stringify({"status": 500, "error": "Invalid body specified", "response": null}));
     }
     else{
         connection.query("INSERT INTO User(TwitterHandle, auth0ID) VALUES ('" + connection.escape(TwitterHandle) + "','" +
-            connection.escape(auth0ID) + "')", function(error, results, fields){
+            connection.escape(req.body.auth0ID) + "')", function(error, results, fields){
             if(error){
                 res.send(JSON.stringify({"status": 500, "error": error, "response": null}));
                 //If there is error, we send the error in the error section with 500 status
