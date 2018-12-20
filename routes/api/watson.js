@@ -2,6 +2,15 @@ const express = require('express');
 const router = express.Router();
 const ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
 
+const standards = require('../standards');
+const standards_data = standards.getIBMData;
+
+//TODO: This should be the necessary key for usage with the IBM API. Also, we can probably just set the URL hardcoded in here, since its just the watson api url
+/*
+IBMAPIKey
+ */
+console.log(standards_data);
+
 let toneAnalyzer = new ToneAnalyzerV3({
   version: '2017-09-21',
   iam_apikey: process.env.WATSON_API_KEY,
