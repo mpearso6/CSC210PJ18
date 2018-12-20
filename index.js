@@ -1,12 +1,10 @@
 const express = require('express');
 const http = require('http');
-const socketio = require('socket.io');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
 
 const twitter = require('./routes/api/twitter');
 const watson = require('./routes/api/watson');
