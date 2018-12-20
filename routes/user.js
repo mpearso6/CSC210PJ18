@@ -7,7 +7,7 @@ const connection = db.connection;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-    if(req.query.Auth0ID === null){
+    if(req.query.auth0ID === null){
         connection.query('SELECT * from User', function (error, results, fields) {
             if(error){
                 res.send(JSON.stringify({"status": 500, "error": error, "response": null}));
@@ -35,7 +35,7 @@ router.post('/', function (req, res) {
     var TwitterHandle = req.body.TwitterHandle === null ? '' : req.body.TwitterHandle;
     var auth0ID = req.body.auth0ID === null ? '' : req.body.auth0ID;
 
-    if(UserID === null || TwitterParams === null || TweetsReturned === null){
+    if(auth0ID === null){
         res.send(JSON.stringify({"status": 500, "error": "Invalid body specified", "response": null}));
     }
     else{
