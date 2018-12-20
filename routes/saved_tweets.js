@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var parser = require('body-parser');
+router.use(parser.urlencoded({
+    extended: true
+}));
 
 const db = require('./../db');
 const connection = db.connection;
@@ -23,14 +26,14 @@ router.post('/', function (req, res) {
     var TwitterParams = req.body.TwitterParams;
     var TweetsReturned = req.body.TweetsReturned;
     
-    if(UserID === null || TwitterParams === null || TweetsReturned === null){
+    if(UserID === undefined || TwitterParams === undefined || TweetsReturned === undefined){
         res.send(JSON.stringify({"status": 500, "error": "Invalid body specified", "response": null}));
     }
     else{
-        connection.query("INSERT INTO SavedTweets(UserID, TwitterParams, TweetsReturned) VALUES (" + connection.escape(UserID) + ",'" +
-            connection.escape(TwitterParams) + "','" + connection.escape(TweetsReturned) + "')", function(error, results, fields){
+        connection.query("INSERT INTO SavedTweets(UserID, TwitterParams, TweetsReturned) VALUES (" + connection.escape(UserID) + "," +
+            connection.escape(TwitterParams) + "," + connection.escape(TweetsReturned) + ")", function(error, results, fields){
             if(error){
-                res.send(JSON.stringify({"status": 500, "error": error, "response": null}));
+                res.send(JSON.stringify({"status": 500, "error": error + "These are the values that were sent: \n" + UserID, "response": null}));
                 //If there is error, we send the error in the error section with 500 status
             } else {
                 res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
