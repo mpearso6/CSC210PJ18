@@ -50,7 +50,7 @@ router.post('/analyze', (req, res) => {
   console.log(req.body);
 
   let toneParams = {
-    tone_input: {'text': req.body!== undefined ? defaultText : req.body.data },
+    tone_input: {'text': req.body!== undefined ? defaultText : req.body },
     content_type: 'application/json'
   };
 
@@ -60,7 +60,6 @@ router.post('/analyze', (req, res) => {
     if (error) {
       console.log(error);
     } else {
-      console.log(JSON.stringify(toneAnalysis, null, 2));
       res.send(JSON.stringify(toneAnalysis, null, 2));
     }
   });
