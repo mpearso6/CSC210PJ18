@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var parser = require('body-parser');
+router.use(parser.urlencoded({
+    extended: true
+}));
 
 const db = require('./../db');
 const connection = db.connection;
@@ -23,12 +26,12 @@ router.post('/', function (req, res) {
     var WatsonDocumentAnalysis = req.body.WatsonDocumentAnalysis;
     var WatsonSentenceAnalysis = req.body.WatsonSentenceAnalysis;
 
-    if(SavedTweetsID === null || WatsonDocumentAnalysis === null || WatsonSentenceAnalysis === null){
+    if(SavedTweetsID === undefined || WatsonDocumentAnalysis === undefined || WatsonSentenceAnalysis === undefined){
         res.send(JSON.stringify({"status": 500, "error": "Invalid body specified", "response": null}));
     }
     else{
-        connection.query("INSERT INTO WatsonAnalysis(SavedTweetsID, WatsonDocumentAnalysis, WatsonSentenceAnalysis) VALUES (" + connection.escape(SavedTweetsID) + ",'" +
-            connection.escape(WatsonDocumentAnalysis) + "','" + connection.escape(WatsonSentenceAnalysis) + "')", function(error, results, fields){
+        connection.query("INSERT INTO WatsonAnalysis(SavedTweetsID, WatsonDocumentAnalysis, WatsonSentenceAnalysis) VALUES (" + connection.escape(SavedTweetsID) + "," +
+            connection.escape(WatsonDocumentAnalysis) + "," + connection.escape(WatsonSentenceAnalysis) + ")", function(error, results, fields){
             if(error){
                 res.send(JSON.stringify({"status": 500, "error": error, "response": null}));
                 //If there is error, we send the error in the error section with 500 status
