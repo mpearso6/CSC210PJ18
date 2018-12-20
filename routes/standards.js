@@ -4,7 +4,7 @@ var router = express.Router();
 const db = require('./../db');
 const connection = db.connection;
 
-/* GET users listing. */
+/* GET standards listing. */
 router.get('/', function(req, res, next) {
     connection.query('SELECT * from Standards', function (error, results, fields) {
         if(error){
@@ -18,3 +18,25 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+exports.getTwitterData = function(){
+    connection.query("SELECT TwitterConsumerKey, TwitterSecretKey, TwitterBearerKey, TwitterBearerSecretKey FROM Standards", function(error, results, fields){
+        if(error){
+            //shouldnt be an error
+        }
+        else{
+            return results;
+        }
+    })
+};
+
+exports.getIBMData = function(){
+    connection.query("SELECT IBMAPIKey FROM Standards", function(error, results, fields){
+        if(error){
+            //shouldnt be an error
+        }
+        else{
+            return results;
+        }
+    })
+};

@@ -9,6 +9,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
+const standards = require('../standards');
+const standards_data = standards.getTwitterData;
+//TODO: These should be the necessary keys for usage with the twitter api
+/*
+TwitterConsumerKey (consumer_key), TwitterSecretKey (consumer_secret), TwitterBearerKey (access_token_key), TwitterBearerSecretKey (access_token_secret)
+ */
+console.log(standards_data);
+
 let twitter = new Twitter({
   consumer_key: '2Jz7kiKdPuGYAg1f7k9Rhh5de', // change to process.env.TWITTER_CONSUMER_KEY
   consumer_secret: 'QWX73rxWYqTg9IOzJxvZG7vFVXVgEq7PqAqiwErIpgQ7Zv6XlT', // change to process.env.TWITTER_CONSUMER_SECRET
