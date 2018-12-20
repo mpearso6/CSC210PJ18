@@ -41,4 +41,28 @@ router.get('/analyze', (req, res) => {
   });
 });
 
+router.post('/analyze', (req, res) => {
+
+  const defaultText = 'Team, I know that times are tough! Product'
+  + 'sales have been disappointing for the past three '
+  + 'quarters. We have a competitive product, but we '
+  + 'need to do a better job of selling it!';
+
+  let toneParams = {
+    tone_input: {'text': req.body!== undefined ? defaultText : req.body.data },
+    content_type: 'application/json'
+  };
+
+
+
+  toneAnalyzer.tone(toneParams, (error, toneAnalysis) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log(JSON.stringify(toneAnalysis, null, 2));
+      res.send(JSON.stringify(toneAnalysis, null, 2));
+    }
+  });
+});
+
 module.exports = router;
