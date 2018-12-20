@@ -6,6 +6,7 @@ import Auth from '../utils/Auth';
 const auth: Func = new Auth();
 const defaultState: Object = {
   test: '',
+  toneAnalysis: {},
   users: [],
   streamTweets: [],
   searchTweets: [],
@@ -63,6 +64,11 @@ export default function twitReducer(state: Object = defaultState, action: Object
     case Actions.STREAM_TERM_SUBMITTED:
       return {
         ...state
+      }
+    case Actions.ANALYSIS_LOADED:
+      return{
+        ...state,
+        toneAnalysis: action.toneAnalysis
       }
     default:
       return state;

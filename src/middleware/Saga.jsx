@@ -1,7 +1,7 @@
 // @flow
 // Fetch
 import {fetchUsers, fetchSearchTweets, fetchStreamTweets, changeStreamTweetTerm, changeSearchTweetTerm} from './TwitFetch';
-import {fetchAnalysis} from './WatsonFetch';
+import {postToToneAnalyzer} from './WatsonFetch';
 
 // Constants
 import { UsersEndpoint, WatsonApiEndpoint, TwitterApiEndpoint } from '../utils/Constants';
@@ -109,9 +109,11 @@ export function* submitStreamTweetsTerm(submitStreamTweetsTermAction: Object): G
 }
 
 export function* loadAnalysis(loadAnalysisAction: Object): Generator<Promise<Object>, any, any> {
+  console.log(loadAnalysisAction.tweetArray);
   try {
-    const data = yield call(fetchAnalysis, WatsonApiEndpoint);
-    yield put({ type: ANALYSIS_LOADED, data})
+    const args = [WatsonApiEndpoint + '/analyze', loadAnalysisAction.tweetArray];
+    const data = yield call(postToToneAnalyzer, ...args);
+    yield put({ type: ANALYSIS_LOADED, toneAnalysis: data})
   } catch (error) {
     console.log(error);
   }

@@ -59,6 +59,7 @@ class AuthContainer extends Component {
   }
 
   handleAnalysis = (tweetsArray: Array) => {
+    console.log(tweetsArray);
     this.props.loadAnalysisAction(tweetsArray);
   }
 
@@ -87,7 +88,7 @@ class AuthContainer extends Component {
   }
 
   render() {
-    const {classes, tweets, theme, ...rest } = this.props;
+    const {toneAnalysis, classes, tweets, theme, ...rest } = this.props;
     const {isAuthenticated, login, logout} = this.props.auth;
 
     return (
@@ -96,11 +97,8 @@ class AuthContainer extends Component {
           brand='Twit'
           rightLinks={
             <HeaderLinks
-              auth={
-                !isAuthenticated() ?
-                  login.bind(this) :
-                  logout.bind(this)}
-              home={this.goTo.bind(this, 'home')}
+              isAuthenticated={isAuthenticated}
+              auth={!isAuthenticated() ? login.bind(this) : logout.bind(this)}
             />}
           fixed
           color="transparent"
@@ -130,10 +128,10 @@ class AuthContainer extends Component {
             </GridContainer>
             <div className={classes.description}>
               <p>
-                An artist of considerable range, Chet Faker — the name taken
-                by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
-                performs and records all of his own music, giving it a warm,
-                intimate feel with a solid groove structure.{" "}
+                A really kool, (yes we spell it with a k...) application
+                that lets you read tweets using the twitter API and then see
+                tone analysis on comments using IBM watson Api! Well... we think it's kool anyway!
+                Play around abit and try it out!
               </p>
             </div>
             <GridContainer justify="center">
@@ -160,6 +158,8 @@ class AuthContainer extends Component {
                       tabContent: (
                         <TwitterSegment
                           color='info'
+                          toneAnalysis={toneAnalysis}
+                          handleAnalysis={this.handleAnalysis}
                           loadSearchTweets={this.handleTwitterSearch}
                           loadStreamTweets={this.handleTwitterStream}
                           clearSearchTweets={this.handleClearSearchTweets}
@@ -199,7 +199,8 @@ function mapStateToProps(state): Object {
     bacon: state.bacon,
     auth: state.auth,
     searchTweets: state.searchTweets,
-    streamTweets: state.streamTweets
+    streamTweets: state.streamTweets,
+    toneAnalysis: state.toneAnalysis
   }
 }
 

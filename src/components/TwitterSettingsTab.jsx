@@ -54,7 +54,7 @@ class TwitterSettingsTab extends Component {
         <div>
           {type === 'stream' ?
             (
-            <GridContainer>
+            <GridContainer justify='center'>
             <GridItem xs={12} sm={12} md={6} lg={6}>
               <TwitterInput
                 labelText="Change stream term"
@@ -76,71 +76,49 @@ class TwitterSettingsTab extends Component {
                 }}
               />
             </GridItem>
-            <GridItem xs={12} sm={12} md={6} lg={6}>
-              <TwitterInput
-                labelText="Change length of stream"
-                id="float"
-                handleChangeTerm={this.handleChangeSearchTerm}
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  endAdornment:(
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Submit change"
-                        onClick={this.handleSubmitSearchTerm}>
-                        <SearchIcon/>
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </GridItem>
+
             <GridItem xs={12} sm={12} md={12} lg={12}>
+              <p style={{marginBottom: '1rem'}}>
+                Analyze emotions and tones in what people write online, like tweets or reviews. Predict whether they are happy, sad, confident, and more. The IBM Watson™ Tone Analyzer service uses linguistic analysis to detect emotional and language tones in written text. The service can analyze tone at both the document and sentence levels. You can use the service to understand how your written communications are perceived and then to improve the tone of your communications. Businesses can use the service to learn the tone of their customers communications and to respond appropriately to each customer, or to understand and improve their customer conversations in general.
+              </p>
               <p>
-                What is this ?!? aifbejksbfvbrifv bfv rvbv ejkrvurebv erv
-                fshjvbskgvrkjgvf vfbvk fkvb ib bkfbvae
-                fbrkfg veargbvjrkgvjerbv
-                vbraevkjareivkreiv kaerbvkjrebv kejavjavle
-                vhjerbvkaev vlknavlkafngvlaofvas
+                Enter a search term and then run the analysis!
               </p>
             </GridItem>
           </GridContainer>
           )
           :
           (
-            <GridContainer>
-            <GridItem xs={12} sm={12} md={12} lg={12}>
-              <TwitterInput
-                labelText="Change search term"
-                id="float"
-                handleChangeTerm={this.handleChangeSearchTerm}
-                formControlProps={{
-                  fullWidth: true
-                }}
-                inputProps={{
-                  endAdornment:(
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="Submit change"
-                        onClick={this.handleSubmitSearchTerm}>
-                        <SearchIcon/>
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-            </GridItem>
-            <GridItem xs={12} sm={12} md={12} lg={12}>
-              <p>
-                What is this ?!? aifbejksbfvbrifv bfv rvbv ejkrvurebv erv
-                fshjvbskgvrkjgvf vfbvk fkvb ib bkfbvae
-                fbrkfg veargbvjrkgvjerbv
-                vbraevkjareivkreiv kaerbvkjrebv kejavjavle
-                vhjerbvkaev vlknavlkafngvlaofvas
-              </p>
-            </GridItem>
+            <GridContainer justify='center'>
+              <GridItem xs={12} sm={12} md={12} lg={6}>
+                <TwitterInput
+                  labelText="Change search term"
+                  id="float"
+                  handleChangeTerm={this.handleChangeSearchTerm}
+                  formControlProps={{
+                    fullWidth: true
+                  }}
+                  inputProps={{
+                    endAdornment:(
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="Submit change"
+                          onClick={this.handleSubmitSearchTerm}>
+                          <SearchIcon/>
+                        </IconButton>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+              </GridItem>
+              <GridItem xs={12} sm={12} md={12} lg={12}>
+                <p style={{marginBottom: '1rem'}}>
+                  Analyze emotions and tones in what people write online, like tweets or reviews. Predict whether they are happy, sad, confident, and more. The IBM Watson™ Tone Analyzer service uses linguistic analysis to detect emotional and language tones in written text. The service can analyze tone at both the document and sentence levels. You can use the service to understand how your written communications are perceived and then to improve the tone of your communications. Businesses can use the service to learn the tone of their customers communications and to respond appropriately to each customer, or to understand and improve their customer conversations in general.
+                </p>
+                <p>
+                  Enter a search term and then run the analysis!
+                </p>
+              </GridItem>
             </GridContainer>
           )
         }

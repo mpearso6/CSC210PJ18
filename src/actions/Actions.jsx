@@ -57,14 +57,14 @@ export function clearStreamTweetsAction(): Object {
   }
 }
 
-export function submitSearchTweetAction(term): Object {
+export function submitSearchTweetAction(term: String): Object {
   return {
     term: term,
     type: SUBMIT_SEARCH_TERM
   }
 }
 
-export function submitStreamTweetAction(term): Object {
+export function submitStreamTweetAction(term: String): Object {
   return {
     term: term,
     type: SUBMIT_STREAM_TERM
@@ -73,6 +73,7 @@ export function submitStreamTweetAction(term): Object {
 
 export function loadAnalysisAction(tweetArray: Array): Object {
   return {
-    type: ANALYSIS_LOADED
+    tweetArray: tweetArray,
+    type: LOAD_ANALYSIS
   }
 }

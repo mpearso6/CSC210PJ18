@@ -41,18 +41,18 @@ class TwitterSegment extends Component {
   }
 
   handleStreamAnalysis = () => {
-    const {streamTweets} = this.props;
+    const {streamTweets, handleAnalysis} = this.props;
     if (streamTweets && streamTweets.length) {
-      console.log(streamTweets);
+      handleAnalysis(streamTweets);
     }else{
       console.log('stream tweets is empty');
     }
   }
 
   handleSearchAnalysis = () => {
-    const {searchTweets} = this.props;
+    const {searchTweets, handleAnalysis} = this.props;
     if (searchTweets.statuses && searchTweets.statuses.length) {
-      console.log(searchTweets.statuses);
+      handleAnalysis(searchTweets.statuses);
     }else{
       console.log('search tweets is empty');
     }
@@ -82,13 +82,13 @@ class TwitterSegment extends Component {
         this.props.clearSearchTweets();
       }
     });
-    //this.setState({ [name]: event.target.checked });
   };
 
   render() {
     const {
       classes,
       color,
+      toneAnalysis,
       loadSearchTweets,
       loadStreamTweets,
       clearSearchTweets,
@@ -98,11 +98,10 @@ class TwitterSegment extends Component {
       searchTweets,
       streamTweets } = this.props;
 
-    const
-      {
-        checkedSearch,
-        checkedStream
-      } = this.state;
+    const {
+      checkedSearch,
+      checkedStream
+    } = this.state;
 
     return (
       <div className={classes.section}>
@@ -133,7 +132,7 @@ class TwitterSegment extends Component {
                       }}/>
                   }
                   label={
-                    checkedStream ? 'stream on' : 'stream off'
+                    checkedStream ? 'clear stream' : 'run stream'
                   }
                   classes={{
                     label: classes.label
@@ -177,16 +176,51 @@ class TwitterSegment extends Component {
                       tabName: "Messages",
                       tabIcon: Chat,
                       tabContent: (
-                        <p className={classes.textCenter}>
-                          I think that’s a responsibility that I have, to push
-                          possibilities, to show people, this is the level that
-                          things could be at. I will be the leader of a company
-                          that ends up being worth billions of dollars, because
-                          I got the answers. I understand culture. I am the
-                          nucleus. I think that’s a responsibility that I have,
-                          to push possibilities, to show people, this is the
-                          level that things could be at.
-                        </p>
+                        <div >
+                          {
+                            toneAnalysis.document_tone === undefined  ?
+                            (
+
+                              <p className={classes.textCenter}>
+                                Analysis will go here! Click the analysis button
+                                for...well... analysis!
+                              </p>
+
+                            )
+                            :
+                            (
+                              toneAnalysis.document_tone.tones.map((item, index) =>
+                              <div key={index++}>
+
+                                <div>score: {item.score}</div>
+
+                                <div>tone id: {item.tone_id}</div>
+
+                                <div>tone name: {item.tone_name}</div>
+
+                              </div>
+                              )
+                            )
+                            &&
+                            (
+                              toneAnalysis.sentences_tone.map((item, index) =>
+                              <div style={{marginBottom: '1rem'}} key={index++}>
+                                <div>sentence id: {item.sentence_id}</div>
+                                <div>text: {item.text}</div>
+                                <div>tones: {
+                                    item.tones.map((tone, index) =>
+                                    <div key={index++}>
+                                      <div>score: {tone.score}</div>
+                                      <div>tone id: {tone.tone_id}</div>
+                                      <div>tone name: {tone.tone_name}</div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              )
+                            )
+                          }
+                        </div>
                       )
                     }
                   ]}
@@ -216,7 +250,7 @@ class TwitterSegment extends Component {
                         }}/>
                     }
                     label={
-                      checkedSearch ? 'search on' : 'search off'
+                      checkedSearch ? 'clear search' : 'run search'
                     }
                     classes={{
                       label: classes.label
@@ -262,16 +296,51 @@ class TwitterSegment extends Component {
                       tabName: "Messages",
                       tabIcon: Chat,
                       tabContent: (
-                        <p className={classes.textCenter}>
-                          I think that’s a responsibility that I have, to push
-                          possibilities, to show people, this is the level that
-                          things could be at. I will be the leader of a company
-                          that ends up being worth billions of dollars, because
-                          I got the answers. I understand culture. I am the
-                          nucleus. I think that’s a responsibility that I have,
-                          to push possibilities, to show people, this is the
-                          level that things could be at.
-                        </p>
+                        <div >
+                          {
+                            toneAnalysis.document_tone === undefined  ?
+                            (
+
+                              <p className={classes.textCenter}>
+                                Analysis will go here! Click the analysis button
+                                for...well... analysis!
+                              </p>
+
+                            )
+                            :
+                            (
+                              toneAnalysis.document_tone.tones.map((item, index) =>
+                              <div key={index++}>
+
+                                <div>score: {item.score}</div>
+
+                                <div>tone id: {item.tone_id}</div>
+
+                                <div>tone name: {item.tone_name}</div>
+
+                              </div>
+                              )
+                            )
+                            &&
+                            (
+                              toneAnalysis.sentences_tone.map((item, index) =>
+                              <div style={{marginBottom: '1rem'}} key={index++}>
+                                <div>sentence id: {item.sentence_id}</div>
+                                <div>text: {item.text}</div>
+                                <div>tones: {
+                                    item.tones.map((tone, index) =>
+                                    <div key={index++}>
+                                      <div>score: {tone.score}</div>
+                                      <div>tone id: {tone.tone_id}</div>
+                                      <div>tone name: {tone.tone_name}</div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              )
+                            )
+                          }
+                        </div>
                       )
                     }
                   ]}
