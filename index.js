@@ -8,9 +8,6 @@ const app = express();
 const server = http.createServer(app);
 
 const cspPolicy = {
-  'report-uri': '/reporting',
-  'default-src': csp.SRC_NONE,
-  'script-src': [ csp.SRC_SELF, csp.SRC_DATA ],
   'font-src': [csp.SRC_SELF, csp.SRC_DATA]
 };
 
