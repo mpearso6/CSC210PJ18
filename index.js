@@ -6,9 +6,11 @@ const PORT = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
 
+/*
 const cspPolicy = {
   'font-src': [csp.SRC_SELF, csp.SRC_DATA]
 };
+*/
 
 const twitter = require('./routes/api/twitter');
 const watson = require('./routes/api/watson');
