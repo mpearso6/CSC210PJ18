@@ -19,7 +19,7 @@ app
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   })
-  .use(express.static(path.join(__dirname, 'build')))
+  .use(express.static(path.join(__dirname, 'public')))
   .use(bodyParser.json())
   .use('/twitter', twitter)
   .use('/watson', watson)
@@ -28,5 +28,5 @@ app
   .use('/standards', standards)
   .use('/watson_analysis', watson_analysis)
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render(path.join(__dirname+'./build/index.html')))
+  .get('/', (req, res) => res.render(path.join(__dirname+'./client/src/index')))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
