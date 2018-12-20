@@ -13,8 +13,8 @@ console.log(standards_data);
 
 let toneAnalyzer = new ToneAnalyzerV3({
   version: '2017-09-21',
-  iam_apikey: process.env.WATSON_API_KEY,
-  url: process.env.WATSON_URL
+  iam_apikey: 'zedUWcix4GfxSXjhE7qMaBbNjJTQDcq7FzZkai2VcRrQ', // Change to process.env.WATSON_API_KEY
+  url: 'https://gateway.watsonplatform.net/tone-analyzer/api' // Change to process.env.WATSON_URL
 });
 
 router.get('/analyze', (req, res) => {

@@ -18,10 +18,10 @@ TwitterConsumerKey (consumer_key), TwitterSecretKey (consumer_secret), TwitterBe
 console.log(standards_data);
 
 let twitter = new Twitter({
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+  consumer_key: '2Jz7kiKdPuGYAg1f7k9Rhh5de', // change to process.env.TWITTER_CONSUMER_KEY
+  consumer_secret: 'QWX73rxWYqTg9IOzJxvZG7vFVXVgEq7PqAqiwErIpgQ7Zv6XlT', // change to process.env.TWITTER_CONSUMER_SECRET
+  access_token_key: '1071717626345340933-70jyDSeNONjOvOcWaNOlTz8zrbXM51', // change to process.env.TWITTER_ACCESS_TOKEN_KEY
+  access_token_secret: 'haX1GSHAU9D8Vpep1zrDsagCSo0fASNpxoc2rgYfpLQiA' // change to process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
 let socketConnection;
@@ -57,6 +57,7 @@ router.get('/stream', (req, res) => {
 router.get('/search', (req, res) => {
   const tweetsBox = [];
   twitter.get('search/tweets', { q: app.locals.searchTerm }, (error, tweets, response) => {
+
     res.send(tweets);
   });
 });

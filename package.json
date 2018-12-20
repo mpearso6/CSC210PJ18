@@ -7,36 +7,14 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "react-scripts test",
-    "client": "react-scripts start",
-    "build": "react-scripts build",
-    "eject": "react-scripts eject",
-    "dev": "concurrently --kill-others \"npm run start\" \"npm run client\""
+    "start": "node index.js"
   },
   "dependencies": {
-    "@material-ui/core": "^3.6.1",
-    "@material-ui/icons": "^3.0.1",
-    "auth0-js": "^9.8.2",
     "body-parser": "^1.18.2",
-    "concurrently": "^4.1.0",
     "ejs": "^2.5.6",
     "express": "^4.15.2",
     "history": "^4.7.2",
     "node-mysql": "^0.4.2",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-facebook-login": "^4.1.1",
-    "react-google-login": "^4.0.0",
-    "react-redux": "^5.0.5",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "1.1.5",
-    "react-stylesheet": "^2.2.2",
-    "redux": "^3.7.1",
-    "redux-saga": "^0.15.4",
-    "semantic-ui-css": "^2.4.0",
-    "semantic-ui-react": "^0.82.5",
-    "socket.io": "^2.0.4",
     "timelinejs3": "^3.4.0",
     "twitter": "^1.7.1",
     "uuid": "^3.1.0",
@@ -48,7 +26,6 @@
     "babel-preset-flow": "^6.23.0",
     "flow-bin": "^0.36.0",
     "jest": "18.1.0",
-    "react-test-renderer": "15.4.2",
     "request": "^2.81.0",
     "tape": "^4.7.0"
   },
@@ -59,12 +36,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ],
   "keywords": [
     "node",
     "heroku",

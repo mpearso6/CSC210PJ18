@@ -29,7 +29,6 @@ app
   .use('/saved_tweets', saved_tweets)
   .use('/standards', standards)
   .use('/watson_analysis', watson_analysis)
-  .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('./pages/index'))
+  .get('/', (req, res) => res.render('./views/build/index'))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
