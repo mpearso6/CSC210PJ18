@@ -1,10 +1,18 @@
 const express = require('express');
+const csp = require('content-security-policy');
 const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
 const PORT = process.env.PORT || 5000;
 const app = express();
 const server = http.createServer(app);
+
+const cspPolicy = {
+  'report-uri': '/reporting',
+  'default-src': csp.SRC_NONE,
+  'script-src': [ csp.SRC_SELF, csp.SRC_DATA ],
+  'font-src': [csp.SRC_SELF, csp.SRC_DATA]
+};
 
 const twitter = require('./routes/api/twitter');
 const watson = require('./routes/api/watson');
@@ -17,9 +25,9 @@ app
   .use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.Header("Content-Security-Policy", "font-src" 'self' 'data');
     next();
   })
+  .use(cspPolicy)
   .use(express.static(path.join(__dirname, 'client/build')))
   .use(bodyParser.json())
   .use('/twitter', twitter)
