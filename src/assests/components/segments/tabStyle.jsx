@@ -1,4 +1,15 @@
 const tabsStyle = {
+  defaultFont: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: '400',
+    lineHeight: '1.5em',
+    textAlign: "center"
+  },
+  defaultFontNotCenter: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontWeight: '400',
+    lineHeight: '1.5em'
+  },
   section: {
     padding: "70px 0"
   },

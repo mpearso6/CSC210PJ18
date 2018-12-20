@@ -4,6 +4,12 @@ export const TEST_LOADED = 'TEST_LOADED';
 export const LOAD_USERS = 'LOAD_USERS';
 export const USERS_LOADED = 'USERS_LOADED';
 
+export const TWEETS_SAVED = 'TWEETS_SAVED';
+export const SAVE_TWEETS = 'SAVE_TWEETS';
+
+export const LOAD_USER = 'LOAD_USER';
+export const USER_LOADED = 'USER_LOADED';
+
 export const LOAD_ANALYSIS = 'LOAD_ANALYSIS';
 export const ANALYSIS_LOADED = 'ANALYSIS_LOADED';
 
@@ -30,6 +36,12 @@ export function loadTestAction(): Object {
 export function loadUsersAction(): Object {
   return {
     type: LOAD_USERS
+  }
+}
+
+export function loadUserAction(): Object {
+  return {
+    type: LOAD_USER
   }
 }
 
@@ -75,5 +87,12 @@ export function loadAnalysisAction(tweetArray: Array): Object {
   return {
     tweetArray: tweetArray,
     type: LOAD_ANALYSIS
+  }
+}
+
+export function saveTweetsAction(tweetArray: Array): Object {
+  return {
+    tweetArray: tweetArray,
+    type: SAVE_TWEETS
   }
 }

@@ -1,10 +1,12 @@
 // @flow
 // Fetch
 import {fetchUsers, fetchSearchTweets, fetchStreamTweets, changeStreamTweetTerm, changeSearchTweetTerm} from './TwitFetch';
+
 import {postToToneAnalyzer} from './WatsonFetch';
+import {saveTweets} from './MySQLFetch';
 
 // Constants
-import { UsersEndpoint, WatsonApiEndpoint, TwitterApiEndpoint } from '../utils/Constants';
+import { UsersEndpoint, WatsonApiEndpoint, TwitterApiEndpoint, TwitterEndpint } from '../utils/Constants';
 
 
 // Redux Saga
@@ -16,6 +18,8 @@ import {
   TEST_LOADED,
   LOAD_USERS,
   USERS_LOADED,
+  TWEETS_SAVED,
+  SAVE_TWEETS,
   LOAD_ANALYSIS,
   ANALYSIS_LOADED,
   LOAD_STREAM_TWEETS,
@@ -119,6 +123,16 @@ export function* loadAnalysis(loadAnalysisAction: Object): Generator<Promise<Obj
   }
 }
 
+export function* saveThoseTweets(saveTweetsAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const args = [TwitterEndpint, saveTweetsAction.UserID, saveTweetsAction.TwitterParams, saveTweetsAction.TweetsReturned];
+    yield call(saveTweets, ...args);
+    yield put({ type: TWEETS_SAVED });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export function* watchForLoadTest(): Generator<any, any, any> {
   yield takeEvery(LOAD_TEST, loadTest);
 }
@@ -154,6 +168,10 @@ export function* watchForSubmitStreamTweetsTerm(): Generator<any, any, any>{
 export function* watchForSentenceAnalysis(): Generator<any, any, any>{
   yield takeEvery(LOAD_ANALYSIS, loadAnalysis);
 }
+
+export function* watchForSaveTweets(): Generator<any, any, any>{
+  yield takeEvery(SAVE_TWEETS, saveThoseTweets);
+}
 /*
  * Generator function that initializes all of our 'watch' sagas
  *
@@ -169,5 +187,6 @@ export default function* rootSaga(): Generator<any, any, any> {
     watchForSubmitSearchTweetsTerm(),
     watchForSubmitStreamTweetsTerm(),
     watchForSentenceAnalysis(),
+    watchForSaveTweets()
   ])
 }

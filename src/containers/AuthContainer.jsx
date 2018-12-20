@@ -35,6 +35,7 @@ class AuthContainer extends Component {
 
   constructor(props) {
     super(props);
+    (this: any).handleSaveTweets = this.handleSaveTweets.bind(this);
     (this: any).handleAnalysis = this.handleAnalysis.bind(this);
     (this: any).handleTwitterSearch = this.handleTwitterSearch.bind(this);
     (this: any).handleTwitterStream = this.handleTwitterStream.bind(this);
@@ -56,6 +57,11 @@ class AuthContainer extends Component {
 
   logout() {
     this.props.auth.logout();
+  }
+
+  handleSaveTweets = (tweetsArray: Array) => {
+    console.log(tweetsArray);
+    this.props.saveTweetsAction(tweetsArray);
   }
 
   handleAnalysis = (tweetsArray: Array) => {
@@ -121,13 +127,13 @@ class AuthContainer extends Component {
                 <div className={classes.profile}>
                   <div className={classes.name}>
                     <h2 className={classes.title}>Twit</h2>
-                    <h3><small>CSC 210 Final App</small></h3>
+                    <h3><small className={classes.defaultFont} >CSC 210 Final App</small></h3>
                   </div>
                 </div>
               </GridItem>
             </GridContainer>
             <div className={classes.description}>
-              <p>
+              <p className={classes.defaultFont}>
                 A really kool, (yes we spell it with a k...) application
                 that lets you read tweets using the twitter API and then see
                 tone analysis on comments using IBM watson Api! Well... we think it's kool anyway!
@@ -136,16 +142,12 @@ class AuthContainer extends Component {
             </div>
             <GridContainer justify="center">
               <GridItem xs={12} sm={12} md={10}>
-                {/*
-                <AltLoginSegment
-                  isAuthenticated={isAuthenticated}/>
-                */}
                 <NavPills
                   alignCenter
                   color="info"
                   tabs={[
                     {
-                      tabButton: "Favorite",
+                      tabButton: "Home",
                       tabIcon: Favorite,
                       tabContent: (
                         <InfoSegment
@@ -159,6 +161,7 @@ class AuthContainer extends Component {
                         <TwitterSegment
                           color='info'
                           toneAnalysis={toneAnalysis}
+                          handleSaveTweets={this.handleSaveTweets}
                           handleAnalysis={this.handleAnalysis}
                           loadSearchTweets={this.handleTwitterSearch}
                           loadStreamTweets={this.handleTwitterStream}
@@ -166,20 +169,6 @@ class AuthContainer extends Component {
                           clearStreamTweets={this.handleClearStreamTweets}
                           changeSearchTerm={this.handleChangeSearchTweets}
                           changeStreamTerm={this.handleChangeStreamTweets}/>
-                      )
-                    },
-                    {
-                      tabButton: "Studio",
-                      tabIcon: Camera,
-                      tabContent: (
-                        <GridContainer justify="center">
-                          <GridItem xs={12} sm={12} md={6}>
-
-                          </GridItem>
-                          <GridItem xs={12} sm={12} md={6}>
-
-                          </GridItem>
-                        </GridContainer>
                       )
                     }
                   ]}

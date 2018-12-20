@@ -49,6 +49,13 @@ class TwitterSettingsTab extends Component {
     const {
       type
     } = this.props;
+
+    const style ={
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      fontWeight: '400',
+      lineHeight: '1.5em',
+      marginBottom: '1rem'
+    }
     return (
 
         <div>
@@ -78,10 +85,10 @@ class TwitterSettingsTab extends Component {
             </GridItem>
 
             <GridItem xs={12} sm={12} md={12} lg={12}>
-              <p style={{marginBottom: '1rem'}}>
+              <p style={style}>
                 Analyze emotions and tones in what people write online, like tweets or reviews. Predict whether they are happy, sad, confident, and more. The IBM Watson™ Tone Analyzer service uses linguistic analysis to detect emotional and language tones in written text. The service can analyze tone at both the document and sentence levels. You can use the service to understand how your written communications are perceived and then to improve the tone of your communications. Businesses can use the service to learn the tone of their customers communications and to respond appropriately to each customer, or to understand and improve their customer conversations in general.
               </p>
-              <p>
+              <p style={style}>
                 Enter a search term and then run the analysis!
               </p>
             </GridItem>
@@ -112,10 +119,10 @@ class TwitterSettingsTab extends Component {
                 />
               </GridItem>
               <GridItem xs={12} sm={12} md={12} lg={12}>
-                <p style={{marginBottom: '1rem'}}>
+                <p style={style}>
                   Analyze emotions and tones in what people write online, like tweets or reviews. Predict whether they are happy, sad, confident, and more. The IBM Watson™ Tone Analyzer service uses linguistic analysis to detect emotional and language tones in written text. The service can analyze tone at both the document and sentence levels. You can use the service to understand how your written communications are perceived and then to improve the tone of your communications. Businesses can use the service to learn the tone of their customers communications and to respond appropriately to each customer, or to understand and improve their customer conversations in general.
                 </p>
-                <p>
+                <p style={style}>
                   Enter a search term and then run the analysis!
                 </p>
               </GridItem>

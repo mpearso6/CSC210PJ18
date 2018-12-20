@@ -40,6 +40,15 @@ class TwitterSegment extends Component {
     (this: any).handleSearchAnalysis = this.handleSearchAnalysis.bind(this);
   }
 
+  handleSaveSearchTweets = () => {
+    const {searchTweets, handleSaveTweets} = this.props;
+    if (searchTweets.statuses && searchTweets.statuses.length) {
+      handleSaveTweets(searchTweets.statuses);
+    }else{
+      console.log('search tweets is empty');
+    }
+  }
+
   handleStreamAnalysis = () => {
     const {streamTweets, handleAnalysis} = this.props;
     if (streamTweets && streamTweets.length) {
@@ -160,14 +169,14 @@ class TwitterSegment extends Component {
                       tabContent: (
                         <div>
                           {
-                            streamTweets !== undefined ? streamTweets.map((data) =>
+                            streamTweets !== undefined ? streamTweets.map((data, index) =>
                             <p
-                              key={data.uniqueId}
-                              className={classes.textCenter}>
+                              key={index++}
+                              className={classes.defaultFont}>
                               {data.text}
                             </p>)
                             :
-                            <p>test</p>
+                            <p className={classes.defaultFont}>test</p>
                           }
                         </div>
                       )
@@ -181,7 +190,7 @@ class TwitterSegment extends Component {
                             toneAnalysis.document_tone === undefined  ?
                             (
 
-                              <p className={classes.textCenter}>
+                              <p className={classes.defaultFont}>
                                 Analysis will go here! Click the analysis button
                                 for...well... analysis!
                               </p>
@@ -192,11 +201,11 @@ class TwitterSegment extends Component {
                               toneAnalysis.document_tone.tones.map((item, index) =>
                               <div key={index++}>
 
-                                <div>score: {item.score}</div>
+                                <div className={classes.defaultFontNotCenter}>score: {item.score}</div>
 
-                                <div>tone id: {item.tone_id}</div>
+                                <div className={classes.defaultFontNotCenter}>tone id: {item.tone_id}</div>
 
-                                <div>tone name: {item.tone_name}</div>
+                                <div className={classes.defaultFontNotCenter}>tone name: {item.tone_name}</div>
 
                               </div>
                               )
@@ -205,14 +214,14 @@ class TwitterSegment extends Component {
                             (
                               toneAnalysis.sentences_tone.map((item, index) =>
                               <div style={{marginBottom: '1rem'}} key={index++}>
-                                <div>sentence id: {item.sentence_id}</div>
-                                <div>text: {item.text}</div>
-                                <div>tones: {
+                                <div className={classes.defaultFontNotCenter}>sentence id: {item.sentence_id}</div>
+                                <div className={classes.defaultFontNotCenter}>text: {item.text}</div>
+                                <div className={classes.defaultFontNotCenter}>tones: {
                                     item.tones.map((tone, index) =>
                                     <div key={index++}>
-                                      <div>score: {tone.score}</div>
-                                      <div>tone id: {tone.tone_id}</div>
-                                      <div>tone name: {tone.tone_name}</div>
+                                      <div className={classes.defaultFontNotCenter}>score: {tone.score}</div>
+                                      <div className={classes.defaultFontNotCenter}>tone id: {tone.tone_id}</div>
+                                      <div className={classes.defaultFontNotCenter}>tone name: {tone.tone_name}</div>
                                     </div>
                                   )}
                                 </div>
@@ -280,12 +289,12 @@ class TwitterSegment extends Component {
                             searchTweets.statuses !== undefined ? searchTweets.statuses.map((data, index) =>
                               <p
                                 key={index++}
-                                className={classes.textCenter}>
+                                className={classes.defaultFont}>
                                 {data.text}
                               </p>
                             )
                             :
-                            <p>
+                            <p className={classes.defaultFont}>
                               Click the toggle to read some tweets!
                             </p>
                           }
@@ -301,7 +310,7 @@ class TwitterSegment extends Component {
                             toneAnalysis.document_tone === undefined  ?
                             (
 
-                              <p className={classes.textCenter}>
+                              <p className={classes.defaultFont}>
                                 Analysis will go here! Click the analysis button
                                 for...well... analysis!
                               </p>
@@ -312,11 +321,11 @@ class TwitterSegment extends Component {
                               toneAnalysis.document_tone.tones.map((item, index) =>
                               <div key={index++}>
 
-                                <div>score: {item.score}</div>
+                                <div className={classes.defaultFontNotCenter}>score: {item.score}</div>
 
-                                <div>tone id: {item.tone_id}</div>
+                                <div className={classes.defaultFontNotCenter}>tone id: {item.tone_id}</div>
 
-                                <div>tone name: {item.tone_name}</div>
+                                <div className={classes.defaultFontNotCenter}>tone name: {item.tone_name}</div>
 
                               </div>
                               )
@@ -325,14 +334,14 @@ class TwitterSegment extends Component {
                             (
                               toneAnalysis.sentences_tone.map((item, index) =>
                               <div style={{marginBottom: '1rem'}} key={index++}>
-                                <div>sentence id: {item.sentence_id}</div>
-                                <div>text: {item.text}</div>
-                                <div>tones: {
+                                <div className={classes.defaultFontNotCenter}>sentence id: {item.sentence_id}</div>
+                                <div className={classes.defaultFontNotCenter}>text: {item.text}</div>
+                                <div className={classes.defaultFontNotCenter}>tones: {
                                     item.tones.map((tone, index) =>
                                     <div key={index++}>
-                                      <div>score: {tone.score}</div>
-                                      <div>tone id: {tone.tone_id}</div>
-                                      <div>tone name: {tone.tone_name}</div>
+                                      <div className={classes.defaultFontNotCenter}>score: {tone.score}</div>
+                                      <div className={classes.defaultFontNotCenter}>tone id: {tone.tone_id}</div>
+                                      <div className={classes.defaultFontNotCenter}>tone name: {tone.tone_name}</div>
                                     </div>
                                   )}
                                 </div>
