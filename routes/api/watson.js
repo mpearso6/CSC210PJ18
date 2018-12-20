@@ -60,6 +60,7 @@ router.post('/analyze', (req, res) => {
     if (error) {
       console.log(error);
     } else {
+      console.log(JSON.stringify(toneAnalysis, null, 2));
       res.send(JSON.stringify(toneAnalysis, null, 2));
     }
   });
