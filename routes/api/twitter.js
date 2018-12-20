@@ -58,6 +58,7 @@ router.post('/setSearchTerm', (req, res) => {
   let searchTerm = req.body.term;
   console.log(searchTerm);
   app.locals.searchTerm = searchTerm;
+  res.send(searchTerm);
 });
 
 router.post('/setStreamTerm', (req, res) => {
