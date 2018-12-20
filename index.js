@@ -27,7 +27,7 @@ app
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   })
-  .use(cspPolicy)
+  .use(csp.getCSP(cspPolicy))
   .use(express.static(path.join(__dirname, 'client/build')))
   .use(bodyParser.json())
   .use('/twitter', twitter)
