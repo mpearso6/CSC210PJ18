@@ -1,5 +1,4 @@
 const express = require('express');
-const csp = require('content-security-policy');
 const http = require('http');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -24,7 +23,6 @@ app
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   })
-  .use(csp.getCSP(cspPolicy))
   .use(express.static(path.join(__dirname, 'client/build')))
   .use(bodyParser.json())
   .use('/twitter', twitter)
