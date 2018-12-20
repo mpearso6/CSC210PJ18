@@ -58,7 +58,7 @@ router.post('/setSearchTerm', (req, res) => {
   let searchTerm = req.body.term;
   console.log(searchTerm);
   app.locals.searchTerm = searchTerm;
-  res.send(searchTerm);
+  res.send(req.body);
 });
 
 router.post('/setStreamTerm', (req, res) => {
@@ -66,7 +66,7 @@ router.post('/setStreamTerm', (req, res) => {
   console.log(req.body);
   res.send(req.body)
   app.locals.streamTerm = streamTerm;
-  console.log(app.locals.streamTerm);
+  console.log(req.body);
 });
 
   /**
