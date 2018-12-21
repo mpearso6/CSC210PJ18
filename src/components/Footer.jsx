@@ -44,7 +44,7 @@ class Footer extends Component {
             &copy; {1900 + new Date().getYear()} , made with{" "}
             <Favorite className={classes.icon} /> by{" "}
             <a
-              href="https://www.creative-tim.com"
+              href="#"
               className={aClasses}
               target="_blank"
             >

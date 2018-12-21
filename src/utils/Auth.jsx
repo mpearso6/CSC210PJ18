@@ -13,7 +13,7 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: 'twitproject.auth0.com',
     clientID: 'hTWO53fvb4YowmcGb8I4IkgyiP852Myq',
-    redirectUri: 'http://localhost:3000/callback',
+    redirectUri: 'https://csc210pj18.herokuapp.com/callback',
     responseType: 'token id_token',
     scope: 'openid'
   });

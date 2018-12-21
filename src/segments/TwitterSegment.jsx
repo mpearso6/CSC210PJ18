@@ -41,9 +41,10 @@ class TwitterSegment extends Component {
   }
 
   handleSaveSearchTweets = () => {
-    const {searchTweets, handleSaveTweets} = this.props;
+    const {searchTweets, handleSaveTweets, handleSaveAnalysis, toneAnalysis} = this.props;
     if (searchTweets.statuses && searchTweets.statuses.length) {
       handleSaveTweets(searchTweets.statuses);
+      handleSaveAnalysis(toneAnalysis);
     }else{
       console.log('search tweets is empty');
     }
@@ -243,6 +244,13 @@ class TwitterSegment extends Component {
                   color="info"
                   round>
                   analysis
+                </Button>
+                <Button
+                  style={{marginRight: '1rem'}}
+                  onClick={this.handleSaveSearchTweets}
+                  color="info"
+                  round>
+                  save
                 </Button>
                   <FormControlLabel
                     control={

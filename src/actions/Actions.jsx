@@ -4,6 +4,9 @@ export const TEST_LOADED = 'TEST_LOADED';
 export const LOAD_USERS = 'LOAD_USERS';
 export const USERS_LOADED = 'USERS_LOADED';
 
+export const ANALYSIS_SAVED = 'ANALYSIS_SAVED';
+export const SAVE_ANALYSIS = 'SAVE_ANALYSIS';
+
 export const TWEETS_SAVED = 'TWEETS_SAVED';
 export const SAVE_TWEETS = 'SAVE_TWEETS';
 
@@ -94,5 +97,12 @@ export function saveTweetsAction(tweetArray: Array): Object {
   return {
     tweetArray: tweetArray,
     type: SAVE_TWEETS
+  }
+}
+
+export function saveTweetsAnalysisAction(tweetArray: Array): Object {
+  return {
+    tweetArray: tweetArray,
+    type: SAVE_ANALYSIS
   }
 }

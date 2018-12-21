@@ -9,7 +9,7 @@ import {bindActionCreators} from 'redux';
 import * as AppActions from '../actions/Actions';
 
 // Material-ui Icons
-import Camera from "@material-ui/icons/Camera";
+//import Camera from "@material-ui/icons/Camera";
 import Palette from "@material-ui/icons/Palette";
 import Favorite from "@material-ui/icons/Favorite";
 
@@ -35,6 +35,7 @@ class AuthContainer extends Component {
 
   constructor(props) {
     super(props);
+    (this: any).handleSaveAnalysis = this.handleSaveAnalysis.bind(this);
     (this: any).handleSaveTweets = this.handleSaveTweets.bind(this);
     (this: any).handleAnalysis = this.handleAnalysis.bind(this);
     (this: any).handleTwitterSearch = this.handleTwitterSearch.bind(this);
@@ -57,6 +58,11 @@ class AuthContainer extends Component {
 
   logout() {
     this.props.auth.logout();
+  }
+
+  handleSaveAnalysis = (tweetsArray: Array) => {
+    console.log(tweetsArray);
+    this.props.saveTweetsAnalysisAction(tweetsArray);
   }
 
   handleSaveTweets = (tweetsArray: Array) => {
@@ -161,6 +167,7 @@ class AuthContainer extends Component {
                         <TwitterSegment
                           color='info'
                           toneAnalysis={toneAnalysis}
+                          handleSaveAnalysis={this.handleSaveAnalysis}
                           handleSaveTweets={this.handleSaveTweets}
                           handleAnalysis={this.handleAnalysis}
                           loadSearchTweets={this.handleTwitterSearch}

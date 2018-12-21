@@ -3,10 +3,10 @@
 import {fetchUsers, fetchSearchTweets, fetchStreamTweets, changeStreamTweetTerm, changeSearchTweetTerm} from './TwitFetch';
 
 import {postToToneAnalyzer} from './WatsonFetch';
-import {saveTweets} from './MySQLFetch';
+import {saveTweets, saveTweetsAnalysis} from './MySQLFetch';
 
 // Constants
-import { UsersEndpoint, WatsonApiEndpoint, TwitterApiEndpoint, TwitterEndpint } from '../utils/Constants';
+import { UsersEndpoint, WatsonApiEndpoint, TwitterApiEndpoint, TwitterEndpint, WatsonEndpoint } from '../utils/Constants';
 
 
 // Redux Saga
@@ -20,6 +20,8 @@ import {
   USERS_LOADED,
   TWEETS_SAVED,
   SAVE_TWEETS,
+  ANALYSIS_SAVED,
+  SAVE_ANALYSIS,
   LOAD_ANALYSIS,
   ANALYSIS_LOADED,
   LOAD_STREAM_TWEETS,
@@ -125,9 +127,19 @@ export function* loadAnalysis(loadAnalysisAction: Object): Generator<Promise<Obj
 
 export function* saveThoseTweets(saveTweetsAction: Object): Generator<Promise<Object>, any, any> {
   try {
-    const args = [TwitterEndpint, saveTweetsAction.UserID, saveTweetsAction.TwitterParams, saveTweetsAction.TweetsReturned];
+    const args = [TwitterEndpint, saveTweetsAction.tweetArray];
     yield call(saveTweets, ...args);
     yield put({ type: TWEETS_SAVED });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export function* saveThatAnalysis(saveTweetsAnalysisAction: Object): Generator<Promise<Object>, any, any> {
+  try {
+    const args = [WatsonEndpoint, saveTweetsAnalysisAction.tweetArray];
+    yield call(saveTweetsAnalysis, ...args);
+    yield put({ type: ANALYSIS_SAVED });
   } catch (error) {
     console.log(error);
   }
@@ -172,6 +184,10 @@ export function* watchForSentenceAnalysis(): Generator<any, any, any>{
 export function* watchForSaveTweets(): Generator<any, any, any>{
   yield takeEvery(SAVE_TWEETS, saveThoseTweets);
 }
+
+export function* watchForSaveTweetsAnalysis(): Generator<any, any, any>{
+  yield takeEvery(SAVE_ANALYSIS, saveThatAnalysis);
+}
 /*
  * Generator function that initializes all of our 'watch' sagas
  *
@@ -187,6 +203,7 @@ export default function* rootSaga(): Generator<any, any, any> {
     watchForSubmitSearchTweetsTerm(),
     watchForSubmitStreamTweetsTerm(),
     watchForSentenceAnalysis(),
-    watchForSaveTweets()
+    watchForSaveTweets(),
+    watchForSaveTweetsAnalysis()
   ])
 }
